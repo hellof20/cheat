@@ -1,0 +1,10 @@
+# 查看当前时区设置
+timedatectl
+
+# 显示所有可用的时区
+timedatectl list-timezones                                                                                   
+
+# 设置当前时区
+timedatectl set-timezone America/New_York
+timedatectl set-time YYYY-MM-DD
+timedatectl set-time HH:MM:SS

@@ -1,0 +1,25 @@
+# ansible配置文件默认位置~/.ansible.cfg
+
+# 跳过host_key_checking
+[defaults]
+host_key_checking = False
+
+#host文件格式
+[all]
+node1 ansible_host=16.187.145.13 ansible_ssh_user=root ansible_ssh_pass=hPer2016
+
+[wh-k8s]
+node1
+
+#copy模块
+ansible all -i /root/hosts -m copy -a "src=./node_exporter dest=/usr/local/bin/node_exporter mod=0755"
+
+#command模块
+ansible all -i /root/hosts -m command -a "rm -rf /tmp/kibana-oss.6.2.4.tar"
+
+#ping模块
+ansible wh-ceph -i hosts -m ping
+
+#yum模块
+ansible wh-ceph -i hosts -m yum -a "state=present name=open-vm-tools"
+

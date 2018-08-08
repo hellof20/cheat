@@ -1,0 +1,25 @@
+#配置多个credentials
+
+~/.aws/credentials
+[default]
+aws_access_key_id = AKIAOMICEBNUM
+aws_secret_access_key = ob37j1A6TGgjR3ST1
+
+[global]
+aws_access_key_id = AKIAJBEIKWQZA
+aws_secret_access_key = XZIjvEMCsGTQZpr9yu5zMP
+
+
+~/.aws/config
+[default]
+output = json
+region = cn-north-1
+
+[global]
+output = json
+region = ap-northeast-2
+aws s3 ls --profile=golbal
+
+
+#使用多个credentials
+aws s3 ls --profile=golbal
