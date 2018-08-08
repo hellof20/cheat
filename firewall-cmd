@@ -1,0 +1,30 @@
+##Add port
+firewall-cmd --permanent --zone=public --add-port=3306/tcp
+ 
+##remove port
+firewall-cmd --permanent --zone=public --remove-port=3306/tcp
+
+##Reload
+firewall-cmd --reload
+ 
+## 检查是否生效
+firewall-cmd --zone=public --query-port=3306/tcp
+ 
+## 列出所有的开放端口
+firewall-cmd --list-all
+firewall-cmd --list-ports
+
+## 设置IP伪装(开启nat转发)
+firewall-cmd --zone=external --add-masquerade --permanent
+
+## 去掉IP伪装（关闭NAT转发）
+firewall-cmd --remove-masquerade
+
+## 检查是否允许 NAT 转发
+firewall-cmd --query-masquerade
+
+## 查看ip_forward是否打开
+cat /proc/sys/net/ipv4/ip_forward
+
+## 端口转发
+firewall-cmd --zone=public --add-forward-port=port=8088:proto=tcp:toport=22:toaddr=47.75.83.123 --permanent
