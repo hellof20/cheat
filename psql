@@ -1,9 +1,15 @@
+##安装postgresql96
+1.官网下载rpm文件
+2.yum install postgresql96-server -y
+3./usr/pgsql-9.6/bin/postgresql96-setup initdb
+默认数据在/var/lib/pgsql/9.6/data
+
 ##创建用户
-CREATE USER dbuser WITH PASSWORD '*****';
+CREATE USER pwm WITH PASSWORD 'password';
 
 
-
-
+##创建数据库
+CREATE DATABASE exampledb OWNER pwm;
 
 
 ##备份与还原数据库 
