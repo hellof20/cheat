@@ -1,11 +1,5 @@
-# To extract an uncompressed archive:
-tar -xvf /path/to/foo.tar
-
-# To create an uncompressed archive:
-tar -cvf /path/to/foo.tar /path/to/foo/
-
-# To extract a .gz archive:
-tar -xzvf /path/to/foo.tgz
+#解压文件到指定目录
+tar -xvf /path/to/foo.tar -C /path/to/destination/
 
 # To create a .gz archive:
 tar -czvf /path/to/foo.tgz /path/to/foo/
@@ -18,9 +12,6 @@ tar -xjvf /path/to/foo.tgz
 
 # To create a .bz2 archive:
 tar -cjvf /path/to/foo.tgz /path/to/foo/
-
-# To extract a .tar in specified Directory:
-tar -xvf /path/to/foo.tar -C /path/to/destination/
 
 # To list the content of an .bz2 archive:
 tar -jtvf /path/to/foo.tgz
