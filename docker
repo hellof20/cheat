@@ -1,3 +1,6 @@
+#显示docker hub中某个image的所有tag
+curl 'https://registry.hub.docker.com/v2/repositories/library/centos/tags/'|jq '."results"[]["name"]
+
 # start a container with an interactive shell
 docker run -ti <image_name> /bin/bash
 
