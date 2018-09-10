@@ -1,0 +1,19 @@
+#创建docker overlay网络
+docker network create --driver overlay overlay1
+
+#常用命令
+docker service ls
+docker service ps service_name
+docker service rm service_name
+
+#不开放外网
+docker service create --replicas 2 --name nginx --network overlay1  nginx:1.13
+
+#开放外网端口，主机9999映射到容器80
+docker service create --replicas 2 --name nginx2 --network overlay1 -p 9999:80 nginx:1.13
+
+#给已存在的服务开放外网端口
+docker service update my-service --publish-add 80:80
+
+#常用操作
+https://www.cnblogs.com/drawnkid/p/8487337.html
