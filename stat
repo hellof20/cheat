@@ -1,0 +1,2 @@
+#查看文件权限(数字)
+stat /usr/local/bin/node_exporter |sed -n '4p'|cut -d "/" -f1|cut -d "(" -f2

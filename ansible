@@ -12,7 +12,7 @@ node1 ansible_host=16.187.145.13 ansible_ssh_user=root ansible_ssh_pass=hPer2016
 node1
 
 #copy模块
-ansible all -i /root/hosts -m copy -a "src=./node_exporter dest=/usr/local/bin/node_exporter mod=0755"
+ansible all -i /root/hosts -m copy -a "src=./node_exporter dest=/usr/local/bin/node_exporter mode=0755"
 
 #command模块
 ansible all -i /root/hosts -m command -a "rm -rf /tmp/kibana-oss.6.2.4.tar"
