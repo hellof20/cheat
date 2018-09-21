@@ -1,0 +1,37 @@
+#部署某个chart
+helm install --name=xxx stable/mysql
+helm install --name mysql2 --set mysqlRootPassword=secretpassword,mysqlUser=my-user,mysqlPassword=my-password,mysqlDatabase=my-database,persistence.enabled=false stable/mysql
+helm install -f mysql-config.yaml --name=mysql1 stable/mysql
+
+#查看所有的release
+helm list -a
+
+#查看某个release的状态
+helm status xxx
+
+#删除某个release
+helm delete xxx
+
+#查找某个chart
+helm search mysql
+
+#查看某个chart
+helm inspect stabel/mysql
+
+#下载某个chart
+helm fetch --untar stable/mysql
+
+#创建自己的chart
+helm create ppp
+
+#升级
+helm upgrade --reuse-values --set image.repository=alpine,image.tag=lastest pp devops-chart
+
+#查看某个版本的values
+helm get values pp --revision=3
+
+#回滚到指定版本
+helm rollback pp 3
+
+#部署前查看yaml文件
+helm install --name=ppp --dry-run --debug
