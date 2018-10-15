@@ -15,10 +15,11 @@ kubectl run nginx --image=nginx:1.13 --replicas=1 --requests='cpu=0.1,memory=128
 #HPA
 kubectl autoscale deploy/nginx --max=5 --cpu-percent=30
 
+#创建tls密钥
 kubectl create secret tls frontend-secret --key ./devops.key --cert ./devops.crt
 
+#创建registry密钥
 kubectl create secret docker-registry myregistrykey --docker-server=10.18.100.79:8800 --docker-username=admin --docker-password=2wsx#EDC --docker-email=devops@dxc.com
-
 
 # 强制删除POD
 kubectl delete pod PODNAME --force --grace-period=0
@@ -31,3 +32,9 @@ ETCDCTL_API=3 etcdctl del /registry/pods/default/pod-to-be-deleted-0
 
 # 删除需要删除NAMESPACE
 etcdctl del /registry/namespaces/NAMESPACENAME
+
+
+for i in kube-apiserver kube-proxy kubelet kube-controller-manager kube-scheduler flanneld etcd;do systemctl disable $i;done
+
+#查看当前leader
+kubectl get endpoints kube-controller-manager --namespace=kube-system  -o yaml
