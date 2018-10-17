@@ -1,0 +1,75 @@
+#安装
+关闭防火墙
+关闭selinux
+各节点间配置ntp服务器，保证时区时间一致
+
+1.所有节点创建ceph用户，并设置sudo权限
+useradd ceph
+echo "ceph ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ceph
+chmod 0440 /etc/sudoers.d/ceph
+
+2.adminNode和其他节点建立ssh信任
+ssh-keygen -N '' -t rsa -f ~/.ssh/id_rsa
+ssh-copyid 其他节点
+
+3.adminNode安装ceph-deploy
+cat << EOM > /etc/yum.repos.d/ceph.repo
+[ceph-noarch]
+name=Ceph noarch packages
+baseurl=https://download.ceph.com/rpm-mimic/el7/noarch
+enabled=1
+gpgcheck=1
+type=rpm-md
+gpgkey=https://download.ceph.com/keys/release.asc
+EOM
+yum install ceph-deploy -y
+
+4.创建集群
+ceph-deploy new {initial-monitor-node(s)}
+    单节点部署把下面两行加入ceph.conf文件中
+    osd pool default size=2
+    osd crush chooseleaf type = 0
+
+5.安装ceph
+ceph-deploy install 其他节点
+
+6.配置初始 monitor(s)、并收集所有密钥
+ceph-deploy mon create-initial
+
+7.用 ceph-deploy 把配置文件和 admin 密钥拷贝到管理节点和 Ceph 节点,这样你每次执行 Ceph 命令行时就无需指定 monitor 地址和 ceph.client.admin.keyring 了。
+ceph-deploy admin {admin-node} {ceph-node}
+
+8.部署管理进程
+ceph-deploy mgr create cnode1
+
+9.添加osd节点
+ceph-deploy osd create cnode1 --data /dev/sdb
+ceph-deploy osd create cnode2 --data /dev/sdb
+ceph-deploy osd create cnode3 --data /dev/sdb
+
+10.查看ceph状态
+sudo chmod +r /etc/ceph/ceph.client.admin.keyring
+ceph health
+ceph -s
+
+11.部署Metadata Server(只要一台)
+ceph-deploy mds create cnode1
+
+12.增加monitor节点
+ceph-deploy mon add cnode2 cnode3
+
+13.查看monitor节点状态
+ceph quorum_status --format json-pretty
+
+14.增加管理进程active/standby
+ceph-deploy mgr create cnode2 cnode3
+ceph -s
+
+15.部署rgw
+ceph-deploy rgw create cnode1
+
+
+#清楚ceph数据
+ceph-deploy purge cnode1
+ceph-deploy purgedata cnode1
+ceph-deploy forgetkeys
