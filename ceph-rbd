@@ -1,0 +1,45 @@
+##RBD
+#创建块设备
+rbd create {image-name} --size {megabytes} --pool {pool-name} --image-feature layering
+rbd默认使用rbd pool
+
+#列出块设备
+rbd ls {pool-name}
+
+#检索块信息
+rbd info {pool-name}/{image-name}
+
+#更改块大小
+rbd resize --image {image-name} --size {megabytes}
+
+#删除块设备
+rbd rm {image-name}
+
+#映射块设备
+rbd map {image-name} --pool {pool-name} --name {user-name}
+
+#查看已映射的设备
+rbd showmapped
+
+#格式化设备
+mkfs.xfs /dev/rbd/{pool-name}/{image-name}
+
+#取消映射
+rbd unmap /dev/rbd/{pool-name}/{image-name}
+
+
+#查看块被哪些服务器map
+[root@cnode1 /]# rbd info rbd/v1
+rbd image 'v1':
+	size 1 GiB in 256 objects
+	order 22 (4 MiB objects)
+	id: 10866b8b4567
+	block_name_prefix: rbd_data.10866b8b4567
+	format: 2
+	features: layering, exclusive-lock
+	op_features: 
+	flags: 
+	create_timestamp: Sat Oct 20 19:12:47 2018
+[root@cnode1 /]# rados -p rbd listwatchers rbd_header.10866b8b4567
+watcher=16.190.241.137:0/1124095846 client.4242 cookie=18446462598732840961
+watcher=16.190.241.132:0/2181732009 client.4269 cookie=18446462598732840961
