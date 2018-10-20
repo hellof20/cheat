@@ -56,7 +56,7 @@ ceph -s
 ceph-deploy mds create cnode1
 
 12.增加monitor节点
-ceph-deploy mon add cnode2 cnode3
+ceph-deploy mon add cnode2 cnode3(有问题)
 
 13.查看monitor节点状态
 ceph quorum_status --format json-pretty
@@ -64,6 +64,7 @@ ceph quorum_status --format json-pretty
 14.增加管理进程active/standby
 ceph-deploy mgr create cnode2 cnode3
 ceph -s
+mgr: cnode1(active), standbys: cnode2, cnode3
 
 15.部署rgw
 ceph-deploy rgw create cnode1
