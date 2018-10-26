@@ -1,0 +1,21 @@
+#创建s3用户
+radosgw-admin user create --uid="testuser" --display-name="First User"
+记住返回结果中keys->access_key和keys->secret_key的值，用于S3接口访问确认
+
+#创建swift用户
+radosgw-admin subuser create --uid=testuser --subuser=testuser:swift --access=full
+记住返回结果中swift_keys->secret_key的值，用于Swift接口访问确认
+
+#测试swift接口
+apt-get install python-setuptools
+apt-get install python-swiftclient
+swift -A http://{IP ADDRESS}:{port}/auth/1.0 -U testuser:swift -K '{swift_secret_key}' list
+
+#查看某个用户
+radosgw-admin user info --uid='pwm'
+
+#查看所有bucket
+radosgw-admin bucket list
+
+#查看bucket状态和使用量等
+radosgw-admin bucket stats --uid=pwm
