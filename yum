@@ -1,0 +1,25 @@
+#查看软件所有可安装版本
+yum --showduplicates list httpd | expand
+
+#安装指定版本
+yum install <package name>-<version info>
+
+# To find what package installs a program:
+yum whatprovides </path/to/program>
+
+# To find the dependencies of a package:
+yum deplist <package name>
+
+# To find information about a package:
+yum info <package name>
+
+# List currently enabled repositories:
+yum repolist
+
+# List packages containing a certain keyword:
+yum list <package_name_or_word_to_search>
+ 
+# To download the source RPM for a package:
+yumdownloader --source <package name>
+
+# (You have to install yumdownloader first, which is installed by the yum-utils package)
