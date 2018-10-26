@@ -1,0 +1,49 @@
+##pool
+#列出ceph存储池
+ceph osd pool ls
+ceph osd pool ls detail
+
+#查看池使用率
+ceph df
+
+#查看pool的副本数量
+ceph osd pool get {pool-name} size
+
+#设置pool的副本数量
+ceph osd pool set {pool-name} size 2
+
+#创建池
+ceph osd pool create {pool-name} {pg-num} [{pgp-num}]
+
+
+##OSD
+#检查OSD的CRUSH map
+ceph osd tree
+
+ceph osd dump
+
+#设置池类型
+ceph osd pool application enable volumes rbd
+  CephFS uses the application name cephfs 
+  RBD uses the application name rbd 
+  RGW uses the application name rgw
+
+##user管理
+#列出所有用户
+ceph auth list
+
+#创建用户并指定权限
+ceph auth get-or-create client.k8s mon 'allow r' osd 'allow rwx pool=k8s' -o ceph.client.k8s.keyring
+
+#获取某个用户信息
+ceph auth get client.k8s
+
+#修改用户权限
+ceph auth caps client.k8s mon 'allow *' osd 'allow *'
+
+#删除用户
+ceph auth del {TYPE}.{ID}
+
+
+##keyring管理
+https://blog.csdn.net/litianze99/article/details/44624451
