@@ -1,0 +1,5 @@
+#install
+yum install stress -y
+
+#cpu load
+stress --cpu 1 --timeout 180
