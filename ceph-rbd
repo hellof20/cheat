@@ -27,6 +27,28 @@ mkfs.xfs /dev/rbd/{pool-name}/{image-name}
 #取消映射
 rbd unmap /dev/rbd/{pool-name}/{image-name}
 
+#创建一个快照
+rbd snap create -p rbd foo@foo_snap
+
+#查看快照
+rbd snap list -p rbd_pool foo #注意是foo不是foo_snap
+
+#在克隆之前，确保快照处于protected状态
+rbd snap protect –p rbd_pool foo@foo_image
+
+#创建一个新的pool1: 
+ceph osd pool create pool1 8 8
+
+#克隆到pool1：
+rbd clone rbd_pool/foo@foo_snap pool1/newfoo
+
+#查看快照的children: 
+rbd children rbd_pool/foo@foo_snap
+pool1/newfoo
+
+##扁平化可以断开父子间的依赖关系：
+rbd flatten pool1/newfoo
+
 
 #查看块被哪些服务器map
 [root@cnode1 /]# rbd info rbd/v1
