@@ -38,3 +38,6 @@ for i in kube-apiserver kube-proxy kubelet kube-controller-manager kube-schedule
 
 #查看当前leader
 kubectl get endpoints kube-controller-manager --namespace=kube-system  -o yaml
+
+#查看kubernetes在etcd中key
+ETCDCTL_API=3 etcdctl get / --prefix --keys-only
