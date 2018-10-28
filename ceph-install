@@ -100,3 +100,10 @@ ceph-deploy rgw create cnode1
 ceph-deploy purge cnode1
 ceph-deploy purgedata cnode1
 ceph-deploy forgetkeys
+
+#故障排查
+No module named ceph_deploy.cli
+/usr/bin/ceph-deploy第一行修改成/usr/bin/python2.7
+
+RuntimeError: NoSectionError
+yum remove ceph-release -y
