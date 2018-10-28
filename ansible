@@ -23,3 +23,5 @@ ansible wh-ceph -i hosts -m ping
 #yum模块
 ansible wh-ceph -i hosts -m yum -a "state=present name=open-vm-tools"
 
+#service模块
+ansible all -i hosts -m service -a "name=node_exporter state=started enabled=yes"
