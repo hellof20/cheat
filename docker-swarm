@@ -1,10 +1,22 @@
+#docker swarm集群创建
+docker swarm init
+token=$(docker -H 172.17.0.136:2345 swarm join-token -q worker) && echo $token
+docker swarm join 172.17.0.136:2377 --token $token
+
+#查看集群node
+docker node ls
+
 #创建docker overlay网络
 docker network create --driver overlay overlay1
 
 #常用命令
 docker service ls
+docker service scale http=5
 docker service ps service_name
+docker service inspect --pretty service_name
 docker service rm service_name
+docker node ps self
+docker node ps $(docker node ls -q | head -n1)
 
 #不开放外网
 docker service create --replicas 2 --name nginx --network overlay1  nginx:1.13
@@ -17,3 +29,18 @@ docker service update my-service --publish-add 80:80
 
 #常用操作
 https://www.cnblogs.com/drawnkid/p/8487337.html
+
+##secret
+#创建secret
+echo "the_answer_is_42" | docker secret create lesssecure -
+docker secret create deep_thought_answer_secure tokenfile
+
+#使用secret
+docker service create --name="redis" --secret="deep_thought_answer_secure" redis
+docker exec $(docker ps --filter name=redis -q) ls -l /run/secrets
+docker exec $(docker ps --filter name=redis -q) cat /run/secrets/deep_thought_answer_secure
+
+#节点进入维护状态和恢复可用
+worker=$(docker node ls | grep -v "Leader" | awk '{print $1}' | tail -n1); echo $worker
+docker node update $worker --availability=drain
+docker node update $worker --availability=active

@@ -10,6 +10,10 @@ docker inspect --format='{{json .Volumes}}' <container_id> | python -mjson.tool
 #查看容器的日志格式
 docker inspect --format '{{ .HostConfig.LogConfig }}' <container_id>
 
+#查看容器的健康状况（前提得是已经设置了健康检）
+docker inspect --format "{{json .State.Health.Status }}" srv
+docker inspect --format "{{json .State.Health }}" srv
+
 #杀死所有正在运行的容器
 docker kill $(docker ps -a -q)
 
@@ -34,10 +38,11 @@ docker inspect -f "{{json .Config.Labels }}" <container_id>
 docker inspect -f "{{json .ContainerConfig.Labels }}" <container_image_id>
 
 #filter container
-docker ps --filter "label=user=scrapbook"
+docker ps -f "label=user=scrapbook"
+docker ps -f name=redis -q
 
 #filter images
-docker images --filter "label=vendor=Katacoda"
+docker images -f "label=vendor=Katacoda"
 
 #查看docker容器使用量
 docker ps -q | xargs docker stats
