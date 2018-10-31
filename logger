@@ -1,0 +1,2 @@
+#logger+nohu
+nohup java -jar /opt/jenkins.war -Dhttp.proxyHost=web-proxy.sgp.hp.com -Dhttp.proxyPort=8080 -Dhttps.proxyHost=web-proxy.sgp.hp.com -Dhttps.proxyPort=8888 > >(logger -p local1.info -t jenkins) &
