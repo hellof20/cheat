@@ -8,7 +8,10 @@ useradd ceph
 echo "ceph ALL = (root) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/ceph
 chmod 0440 /etc/sudoers.d/ceph
 
+1.1.把所有节点hostname放入hosts文件
+
 2.adminNode和其他节点建立ssh信任
+su - ceph
 ssh-keygen -N '' -t rsa -f ~/.ssh/id_rsa
 ssh-copyid 其他节点
 
@@ -46,6 +49,8 @@ EOM
 yum install ceph-deploy -y
 
 4.创建集群
+su - ceph
+mkdir ~/cluster && cd ~/cluster
 ceph-deploy new {initial-monitor-node(s)}
     单节点部署把下面两行加入ceph.conf文件中
     osd pool default size=2

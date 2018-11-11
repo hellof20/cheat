@@ -1,3 +1,9 @@
+#open api server or expose service
+kubectl proxy --accept-paths='^.*' --address='0.0.0.0' --port=8080 --accept-hosts='^*$'
+
+#access api use kubectl
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes/pp"|jq .
+
 kubectl get componentstatuses
 
 kubectl cluster-info
@@ -13,7 +19,7 @@ kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort
 kubectl run nginx --image=nginx:1.13 --replicas=1 --requests='cpu=0.1,memory=128Mi'
 
 #HPA
-kubectl autoscale deploy/nginx --max=5 --cpu-percent=30
+kubectl autoscale deploy/nginx --min=1 --max=5 --cpu-percent=30
 
 #创建tls密钥
 kubectl create secret tls frontend-secret --key ./devops.key --cert ./devops.crt
@@ -41,3 +47,26 @@ kubectl get endpoints kube-controller-manager --namespace=kube-system  -o yaml
 
 #查看kubernetes在etcd中key
 ETCDCTL_API=3 etcdctl get / --prefix --keys-only
+
+#label
+#update label
+kubectl label pod nginx-95fb6b497-58r5p  tier=backend --overwrite
+#add label
+kubectl label pod nginx-95fb6b497-58r5p  tier=backend
+#delete label
+kubectl label pod nginx-95fb6b497-58r5p  tier-
+
+#update:
+kubectl set image deploy/alpine alpine:latest
+kubectl rollout history deployments/alpine
+kubectl rollout undo deployments/alpine
+
+#自动补全
+yum install bash-completion -y
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+#Advertise a new extended resource on one of your Nodes
+#add
+curl --header "Content-Type: application/json-patch+json" --request PATCH --data '[{"op": "add", "path": "/status/capacity/dongle", "value": "4"}]' http://localhost:8080/api/v1/nodes/pp/status
+#remove
+curl --header "Content-Type: application/json-patch+json" --request PATCH --data '[{"op": "remove", "path": "/status/capacity/dongle"' http://localhost:8080/api/v1/nodes/pp/status
