@@ -1,22 +1,35 @@
+#自动补全
+yum install bash-completion -y
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+
+#context
+kubectl config view
+kubectl config get-clusters
+kubectl config get-contexts
+kubectl config set-cluster product --server=https://192.168.44.132:6443 --certificate-authority=/etc/kubernetes/pki/ca.crt
+kubectl config set-credentials ppp --client-certificate=/etc/kubernetes/pki/admin.pem --client-key=/etc/kubernetes/pki/admin-key.pem
+kubectl config set-context system --cluster=product --user=ppp
+kubectl config use-context system
+
+#常用
+kubectl run alpine --image=alpine --replicas=4 --command -- sleep 36000
+kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort
+kubectl run nginx --image=nginx:1.13 --replicas=1 --requests='cpu=0.1,memory=128Mi' --limits='cpu=0.2,memory=256Mi' --restart=Always --image-pull-policy=IfNotPresent
+
 #open api server or expose service
 kubectl proxy --accept-paths='^.*' --address='0.0.0.0' --port=8080 --accept-hosts='^*$'
 
 #access api use kubectl
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes/pp"|jq .
 
+##查看k8s集群状态
 kubectl get componentstatuses
-
 kubectl cluster-info
+#查看当前leader
+kubectl get endpoints kube-controller-manager --namespace=kube-system  -o yaml
 
-kubectl proxy --address='10.18.101.161' --port=8080 --accept-hosts='^*$'
-
-kubectl get apiservice
-
-kubectl run alpine --image=alpine --replicas=4 --command -- sleep 36000
-
-kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort
-
-kubectl run nginx --image=nginx:1.13 --replicas=1 --requests='cpu=0.1,memory=128Mi'
+#K8S的DNS路径
+svc_name.namespace_name.svc + cluster.local
 
 #HPA
 kubectl autoscale deploy/nginx --min=1 --max=5 --cpu-percent=30
@@ -27,6 +40,33 @@ kubectl create secret tls frontend-secret --key ./devops.key --cert ./devops.crt
 #创建registry密钥
 kubectl create secret docker-registry myregistrykey --docker-server=10.18.100.79:8800 --docker-username=admin --docker-password=2wsx#EDC --docker-email=devops@dxc.com
 
+#查看kubernetes在etcd中key
+ETCDCTL_API=3 etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apiserver-etcd-client.crt --key=/etc/kubernetes/pki/apiserver-etcd-client.key --endpoints=https://127.0.0.1:2379  get / --prefix --keys-only
+
+#label
+#update label
+kubectl label pod nginx-95fb6b497-58r5p  tier=backend --overwrite
+#add label
+kubectl label pod nginx-95fb6b497-58r5p  tier=backend
+#delete label
+kubectl label pod nginx-95fb6b497-58r5p  tier-
+
+#滚动升级:
+kubectl set image deploy/alpine alpine:latest
+kubectl rollout history deployments/alpine
+kubectl rollout undo deployments/alpine
+
+#标记某个storageclass为default
+kubectl patch storageclass <your-class-name> -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
+
+#Advertise a new extended resource on one of your Nodes
+#add
+curl --header "Content-Type: application/json-patch+json" --request PATCH --data '[{"op": "add", "path": "/status/capacity/dongle", "value": "4"}]' http://localhost:8080/api/v1/nodes/pp/status
+#remove
+curl --header "Content-Type: application/json-patch+json" --request PATCH --data '[{"op": "remove", "path": "/status/capacity/dongle"' http://localhost:8080/api/v1/nodes/pp/status
+
+
+##强制删除
 # 强制删除POD
 kubectl delete pod PODNAME --force --grace-period=0
 
@@ -37,36 +77,8 @@ kubectl delete namespace NAMESPACENAME --force --grace-period=0
 ETCDCTL_API=3 etcdctl del /registry/pods/default/pod-to-be-deleted-0
 
 # 删除需要删除NAMESPACE
-etcdctl del /registry/namespaces/NAMESPACENAME
+ETCDCTL_API=3 etcdctl del /registry/namespaces/NAMESPACENAME
 
-
-for i in kube-apiserver kube-proxy kubelet kube-controller-manager kube-scheduler flanneld etcd;do systemctl disable $i;done
-
-#查看当前leader
-kubectl get endpoints kube-controller-manager --namespace=kube-system  -o yaml
-
-#查看kubernetes在etcd中key
-ETCDCTL_API=3 etcdctl get / --prefix --keys-only
-
-#label
-#update label
-kubectl label pod nginx-95fb6b497-58r5p  tier=backend --overwrite
-#add label
-kubectl label pod nginx-95fb6b497-58r5p  tier=backend
-#delete label
-kubectl label pod nginx-95fb6b497-58r5p  tier-
-
-#update:
-kubectl set image deploy/alpine alpine:latest
-kubectl rollout history deployments/alpine
-kubectl rollout undo deployments/alpine
-
-#自动补全
-yum install bash-completion -y
-echo "source <(kubectl completion bash)" >> ~/.bashrc
-
-#Advertise a new extended resource on one of your Nodes
-#add
-curl --header "Content-Type: application/json-patch+json" --request PATCH --data '[{"op": "add", "path": "/status/capacity/dongle", "value": "4"}]' http://localhost:8080/api/v1/nodes/pp/status
-#remove
-curl --header "Content-Type: application/json-patch+json" --request PATCH --data '[{"op": "remove", "path": "/status/capacity/dongle"' http://localhost:8080/api/v1/nodes/pp/status
+#Fedreation
+#init
+kubefed init fellowship --host-cluster-context=system --dns-provider="coredns" --dns-zone-name="example.com." --dns-provider-config="/root/coredns-provider.conf" --api-server-service-type="NodePort" --image='markdotsonrs/fcp-amd64:v1.9.0-alpha.3' --federation-system-namespace='federation'
