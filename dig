@@ -1,0 +1,4 @@
+#install
+yum install bind-utils -y
+
+dig @localhost -p 53 www.baidu.com

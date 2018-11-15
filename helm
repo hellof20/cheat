@@ -1,3 +1,6 @@
+#tiller安装
+helm init --service-account=pwm
+
 #部署某个chart
 helm install --name=xxx stable/mysql
 helm install --name mysql2 --set mysqlRootPassword=secretpassword,mysqlUser=my-user,mysqlPassword=my-password,mysqlDatabase=my-database,persistence.enabled=false stable/mysql
