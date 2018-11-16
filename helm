@@ -1,31 +1,47 @@
 #tiller安装
-helm init --service-account=pwm
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account=tiller
 
+
+#tiller卸载
+helm reset
+
+
+##Repo
+helm repo list
+helm repo add offical https://kubernetes-charts.storage.googleapis.com
+#自建repo
+helm serve --address 192.168.100.211:8879 --repo-path /data/helm/repository/ --url http://192.168.100.211:8879/charts/
+#发布chart到自建repo
+helm package chart_name --debug
+进入repo目录
+helm repo index .
+helm repo update
+
+##chart
+helm search repo_name/chart_name -l
+helm inspect stabel/mysql
 #部署某个chart
 helm install --name=xxx stable/mysql
 helm install --name mysql2 --set mysqlRootPassword=secretpassword,mysqlUser=my-user,mysqlPassword=my-password,mysqlDatabase=my-database,persistence.enabled=false stable/mysql
 helm install -f mysql-config.yaml --name=mysql1 stable/mysql
-
-#查看所有的release
-helm list -a
-
-#查看某个release的状态
-helm status xxx
-
-#删除某个release
-helm delete xxx
-
-#查找某个chart
-helm search mysql
-
-#查看某个chart
-helm inspect stabel/mysql
-
-#下载某个chart
+#部署前查看yaml文件
+helm install --name=ppp --dry-run --debug
+#下载某个chart到本地
 helm fetch --untar stable/mysql
-
 #创建自己的chart
 helm create ppp
+#打包某个chart，默认放到.helm/repository/local
+helm package mychart
+
+
+##release
+#查看所有的release
+helm list -a
+helm status xxx
+helm delete xxx --purge
+
 
 #升级
 helm upgrade --reuse-values --set image.repository=alpine,image.tag=lastest pp devops-chart
@@ -36,5 +52,5 @@ helm get values pp --revision=3
 #回滚到指定版本
 helm rollback pp 3
 
-#部署前查看yaml文件
-helm install --name=ppp --dry-run --debug
+#参考：
+https://www.hi-linux.com/posts/21466.html
