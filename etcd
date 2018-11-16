@@ -1,0 +1,8 @@
+#查看etcd中keys
+ETCDCTL_API=3 etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apiserver-etcd-client.crt --key=/etc/kubernetes/pki/apiserver-etcd-client.key --endpoints=https://127.0.0.1:2379  get / --prefix --keys-only
+
+# 删除default namespace下的pod名为pod-to-be-deleted-0
+ETCDCTL_API=3 etcdctl del /registry/pods/default/pod-to-be-deleted-0
+
+# 删除需要删除NAMESPACE
+ETCDCTL_API=3 etcdctl del /registry/namespaces/NAMESPACENAME
