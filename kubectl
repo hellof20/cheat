@@ -66,8 +66,11 @@ kubectl label pod nginx-95fb6b497-58r5p  tier-
 ##format
 #use go-template
 kubectl get pods --all-namespaces -o go-template --template='{{range .items}}{{printf "|%-20s|%-50s|%-30s|\n" .metadata.namespace .metadata.name .metadata.uid}}{{end}}'
+kubectl get pods --all-namespaces -o go-template --template="{{range .items}}{{range .spec.containers}}{{.image}} {{end}}{{end}}"
 #use jq
 kubectl get pods -o json|jq -r '.items[].spec.containers[] | .name +" "+.image'
+#user jsonpath
+kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}'
 
 #滚动升级:
 kubectl set image deploy/alpine alpine:latest
