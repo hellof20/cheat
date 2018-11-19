@@ -5,6 +5,9 @@ kubectl get pods --all-namespaces -o json|jq 'keys'
 #获取json文件列表中对象的值
 kubectl get pods --all-namespaces -o json|jq '.items[].spec.containers[].image'
 
+#获取多个字段
+kubectl get pods -o json|jq -r '.items[].spec.containers[] | .name +" "+.image'
+
 -r去掉双引号
 
 # Access first list item

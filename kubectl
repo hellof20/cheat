@@ -6,6 +6,10 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc
 kubectl api-resources --namespaced=true
 kubectl api-resources --namespaced=false
 
+#查看所有api service和版本
+kubectl get apiservices
+kubectl api-versions
+
 #context
 kubectl config view
 kubectl config get-clusters
@@ -51,6 +55,19 @@ kubectl label pod nginx-95fb6b497-58r5p  tier=backend --overwrite
 kubectl label pod nginx-95fb6b497-58r5p  tier=backend
 #delete label
 kubectl label pod nginx-95fb6b497-58r5p  tier-
+
+##filter
+--all-namespace
+-l run=myapp
+--field-selector "status.phase!=Running,spec.restartPolicy=Always"
+-o wide
+-w
+
+##format
+#use go-template
+kubectl get pods --all-namespaces -o go-template --template='{{range .items}}{{printf "|%-20s|%-50s|%-30s|\n" .metadata.namespace .metadata.name .metadata.uid}}{{end}}'
+#use jq
+kubectl get pods -o json|jq -r '.items[].spec.containers[] | .name +" "+.image'
 
 #滚动升级:
 kubectl set image deploy/alpine alpine:latest
