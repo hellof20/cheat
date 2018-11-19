@@ -17,7 +17,6 @@ ssh-copyid 其他节点
 
 3.adminNode安装ceph-deploy
 cat << EOM > /etc/yum.repos.d/ceph.repo
-
 [Ceph]
 name=Ceph packages for $basearch
 baseurl=http://download.ceph.com/rpm-mimic/el7/$basearch
@@ -26,7 +25,6 @@ gpgcheck=1
 type=rpm-md
 gpgkey=https://download.ceph.com/keys/release.asc
 priority=1
-
 [Ceph-noarch]
 name=Ceph noarch packages
 baseurl=http://download.ceph.com/rpm-mimic/el7/noarch
@@ -35,7 +33,6 @@ gpgcheck=1
 type=rpm-md
 gpgkey=https://download.ceph.com/keys/release.asc
 priority=1
-
 [ceph-source]
 name=Ceph source packages
 baseurl=http://download.ceph.com/rpm-mimic/el7/SRPMS
@@ -44,9 +41,13 @@ gpgcheck=1
 type=rpm-md
 gpgkey=https://download.ceph.com/keys/release.asc
 priority=1
-
 EOM
 yum install ceph-deploy -y
+
+wget -q -O- 'https://download.ceph.com/keys/release.asc' | sudo apt-key add -
+echo deb https://download.ceph.com/debian-mimic/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list
+sudo apt update
+sudo apt install ceph-deploy
 
 4.创建集群
 su - ceph

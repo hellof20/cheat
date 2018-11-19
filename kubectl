@@ -2,6 +2,10 @@
 yum install bash-completion -y
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 
+#查看所有api resource
+kubectl api-resources --namespaced=true
+kubectl api-resources --namespaced=false
+
 #context
 kubectl config view
 kubectl config get-clusters
