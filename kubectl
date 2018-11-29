@@ -24,8 +24,17 @@ kubectl run alpine --image=alpine --replicas=4 --command -- sleep 36000
 kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort
 kubectl run nginx --image=nginx:1.13 --replicas=1 --requests='cpu=0.1,memory=128Mi' --limits='cpu=0.2,memory=256Mi' --restart=Always --image-pull-policy=IfNotPresent
 
-#open api server or expose service
+##open api server or expose service
 kubectl proxy --accept-paths='^.*' --address='0.0.0.0' --port=8080 --accept-hosts='^*$'
+#access service from outside
+http://192.168.44.136:8080/api/v1/namespaces/mytest/services/nginx/proxy/
+#access kubelet api
+http://192.168.44.136:8080/api/v1/nodes/ubuntu/proxy/
+/stats/summary  /stats/*
+/metrics/*
+/logs/*
+/spec/*
+
 
 #access api use kubectl
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes/pp"|jq .
@@ -69,6 +78,7 @@ kubectl get pods --all-namespaces -o go-template --template='{{range .items}}{{p
 kubectl get pods --all-namespaces -o go-template --template="{{range .items}}{{range .spec.containers}}{{.image}} {{end}}{{end}}"
 #use jq
 kubectl get pods -o json|jq -r '.items[].spec.containers[] | .name +" "+.image'
+kubectl get pods -o json|jq '.items[].metadata | .name +" "+ .ownerReferences[].name + " "+.ownerReferences[].kind' #获取pod的父亲名字和类型
 #user jsonpath
 kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}'
 

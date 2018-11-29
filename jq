@@ -1,4 +1,4 @@
-参考https://www.ibm.com/developerworks/cn/linux/1612_chengg_jq/index.html
+参考https://stedolan.github.io/jq/manual/#Basicfilters
 #列出json文件所有的keys
 kubectl get pods --all-namespaces -o json|jq 'keys'
 
@@ -7,6 +7,9 @@ kubectl get pods --all-namespaces -o json|jq '.items[].spec.containers[].image'
 
 #获取多个字段
 kubectl get pods -o json|jq -r '.items[].spec.containers[] | .name +" "+.image'
+
+#获取数组长度
+kubectl get pods -o json|jq -r '.items|length'
 
 -r去掉双引号
 
