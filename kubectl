@@ -107,3 +107,8 @@ kubectl delete namespace NAMESPACENAME --force --grace-period=0
 #Fedreation
 #init
 kubefed init fellowship --host-cluster-context=system --dns-provider="coredns" --dns-zone-name="example.com." --dns-provider-config="/root/coredns-provider.conf" --api-server-service-type="NodePort" --image='markdotsonrs/fcp-amd64:v1.9.0-alpha.3' --federation-system-namespace='federation'
+
+#查看从某个时间点开始的日志信息
+kubectl -n devops logs devportal-7b54df68bc-cpzkh --since-time="2018-12-01T04:58:20+08:00"
+#查看最近多久的日志
+kubectl -n devops logs devportal-7b54df68bc-cpzkh --since=10s
