@@ -27,3 +27,7 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 # Generate Diffie-Hellman parameters:
 openssl dhparam -outform PEM -out dhparams.pem 2048
+
+#参考
+http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html
+http://blog.csdn.net/gx_1983/article/details/47866537
