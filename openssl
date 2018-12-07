@@ -1,0 +1,29 @@
+#生成自建CA：
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout ca.key -x509 -days 3650 -out ca.crt -subj "/C=/ST=/L=/O=/OU=/CN=devops"
+#生成私钥和公钥签名请求：
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout frontend.key -out frontend.csr -subj "/C=/ST=/L=/O=/OU=/CN=devops"
+#用自建CA前面公钥请求从而生成证书
+openssl x509 -req -days 3650 -in frontend.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out frontend.crt
+#给指定的IP地址使用的证书
+echo subjectAltName = IP:192.168.33.100 > extfile.cnf
+openssl x509 -req -days 3650 -in frontend.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out frontend.crt
+
+#不自建CA生成私钥和公钥：
+openssl x509 -req -nodes -days 3650 -newkey rsa:2048 -keyout frontend.key -out frontend.crt -subj "/C=/ST=/L=/O=/OU=/CN=wanwei"
+
+#查看证书请求内容
+openssl req -in server.csr -text -noout
+#查看生成的证书内容
+openssl x509 -in ca.crt -text -noout
+#查看证书指纹
+openssl x509 -in server.crt -noout -sha256 -fingerprint
+
+# To create a 2048-bit private key:
+openssl genrsa -out server.key 2048
+# To create the Certificate Signing Request (CSR):
+openssl req -new -key server.key -out server.csr
+# To sign a certificate using a private key and CSR:
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+# Generate Diffie-Hellman parameters:
+openssl dhparam -outform PEM -out dhparams.pem 2048
