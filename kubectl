@@ -71,6 +71,11 @@ kubectl label pod nginx-95fb6b497-58r5p  tier-
 --field-selector "status.phase!=Running,spec.restartPolicy=Always"
 -o wide
 -w
+#field-selector
+kubectl get pods --field-selector status.phase=Running
+kubectl get services --field-selector metadata.namespace!=default
+kubectl get pods --field-selector=status.phase!=Running,spec.restartPolicy=Always
+kubectl get pods --field-selector metadata.name=redis-master
 
 ##format
 #use go-template
@@ -112,3 +117,4 @@ kubefed init fellowship --host-cluster-context=system --dns-provider="coredns" -
 kubectl -n devops logs devportal-7b54df68bc-cpzkh --since-time="2018-12-01T04:58:20+08:00"
 #查看最近多久的日志
 kubectl -n devops logs devportal-7b54df68bc-cpzkh --since=10s
+
