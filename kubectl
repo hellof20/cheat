@@ -3,59 +3,62 @@ yum install bash-completion -y
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 
 #查看所有api resource
-kubectl api-resources --namespaced=true
-kubectl api-resources --namespaced=false
-
-#查看所有api service和版本
+kubectl api-resources -o wide --namespaced=true/false --verbs=list,get --api-group=extension
 kubectl get apiservices
 kubectl api-versions
 
+#debug api request
+--v=0	Generally useful for this to ALWAYS be visible to an operator.
+--v=1	A reasonable default log level if you don’t want verbosity.
+--v=2	Useful steady state information about the service and important log messages that may correlate to significant changes in the system. This is the recommended default log level for most systems.
+--v=3	Extended information about changes.
+--v=4	Debug level verbosity.
+--v=6	Display requested resources.
+--v=7	Display HTTP request headers.
+--v=8	Display HTTP request contents.
+--v=9	Display HTTP request contents without truncation of contents
+
 #context
-kubectl config view
-kubectl config get-clusters
-kubectl config get-contexts
 kubectl config set-cluster product --server=https://192.168.44.132:6443 --certificate-authority=/etc/kubernetes/pki/ca.crt
 kubectl config set-credentials ppp --client-certificate=/etc/kubernetes/pki/admin.pem --client-key=/etc/kubernetes/pki/admin-key.pem
 kubectl config set-context system --cluster=product --user=ppp
 kubectl config use-context system
 
 #常用
-kubectl run alpine --image=alpine --replicas=4 --command -- sleep 36000
-kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort
-kubectl run nginx --image=nginx:1.13 --replicas=1 --requests='cpu=0.1,memory=128Mi' --limits='cpu=0.2,memory=256Mi' --restart=Always --image-pull-policy=IfNotPresent
+kubectl run alpine --image=alpine --replicas=4 --command -- sleep 36000 --record
+kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort --record
+kubectl run nginx --image=nginx:1.13 --replicas=1 --requests='cpu=0.1,memory=128Mi' --limits='cpu=0.2,memory=256Mi' --restart=Always --image-pull-policy=IfNotPresent --record
 
 ##open api server or expose service
 kubectl proxy --accept-paths='^.*' --address='0.0.0.0' --port=8080 --accept-hosts='^*$'
 #access service from outside
-http://192.168.44.136:8080/api/v1/namespaces/mytest/services/nginx/proxy/
+http://192.168.44.136:8080/api/v1/namespaces/mytest/services/nginx:80/proxy/
 #access kubelet api
-http://192.168.44.136:8080/api/v1/nodes/ubuntu/proxy/
-/stats/summary  /stats/*
-/metrics/*
-/logs/*
-/spec/*
-
-
+http://192.168.44.136:8080/api/v1/nodes/ubuntu/proxy/stats/summary或/stats/*或/metrics/*或/logs/*或/spec/*
 #access api use kubectl
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes/pp"|jq .
 
+
 ##查看k8s集群状态
-kubectl get componentstatuses
+kubectl get cs
 kubectl cluster-info
+kubectl get nodes
 #查看当前leader
 kubectl get endpoints kube-controller-manager --namespace=kube-system  -o yaml
 
-#K8S的DNS路径
+#K8S的DNS绝对路径
 svc_name.namespace_name.svc + cluster.local
 
-#HPA
+#创建HPA
 kubectl autoscale deploy/nginx --min=1 --max=5 --cpu-percent=30
 
+#secret
 #创建tls密钥
 kubectl create secret tls frontend-secret --key ./devops.key --cert ./devops.crt
-
 #创建registry密钥
 kubectl create secret docker-registry myregistrykey --docker-server=10.18.100.79:8800 --docker-username=admin --docker-password=2wsx#EDC --docker-email=devops@dxc.com
+#创建generic密钥
+kubectl create secret generic test-secret --from-literal=username='my-app' --from-literal=password='39528$vdg7Jb'
 
 #label
 #update label
@@ -69,7 +72,6 @@ kubectl label pod nginx-95fb6b497-58r5p  tier-
 --all-namespace
 -l run=myapp
 --field-selector "status.phase!=Running,spec.restartPolicy=Always"
--o wide
 -w
 #field-selector
 kubectl get pods --field-selector status.phase=Running
@@ -84,11 +86,13 @@ kubectl get pods --all-namespaces -o go-template --template="{{range .items}}{{r
 #use jq
 kubectl get pods -o json|jq -r '.items[].spec.containers[] | .name +" "+.image'
 kubectl get pods -o json|jq '.items[].metadata | .name +" "+ .ownerReferences[].name + " "+.ownerReferences[].kind' #获取pod的父亲名字和类型
-#user jsonpath
+#use jsonpath
 kubectl get pods --all-namespaces -o=jsonpath='{range .items[*]}{"\n"}{.metadata.name}{":\t"}{range .spec.containers[*]}{.image}{", "}{end}{end}'
+#use custom-columns 
+kubectl get pods <pod-name> -o=custom-columns=NAME:.metadata.name,RSRC:.metadata.resourceVersion
 
 #滚动升级:
-kubectl set image deploy/alpine alpine:latest
+kubectl set image deploy/alpine alpine:latest --record
 kubectl rollout history deployments/alpine
 kubectl rollout undo deployments/alpine
 
