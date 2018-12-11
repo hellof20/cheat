@@ -31,3 +31,6 @@ pip list --outdated --format=freeze | cut -d = -f 1 | xargs -n1 pip install -U
 
 # Install specific version of a package
 pip install -I SomePackage1==1.1.0 'SomePackage2>=1.0.4'
+
+#查看所有可用的包版本
+https://pypi.org/simple/XXXXXX/
