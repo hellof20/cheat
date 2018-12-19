@@ -12,6 +12,10 @@ CREATE USER pwm WITH PASSWORD 'password';
 CREATE DATABASE exampledb OWNER pwm;
 
 
+#查看数据库和表大小
+select pg_size_pretty(pg_database_size('dc'));
+select pg_size_pretty(pg_relation_size('g_inouttbl_zmd'));
+
 ##备份与还原数据库 
 #不压缩
 pg_dump -U postgres -h 192.9.21.117 -w sales>/home/tk/pgsql/backup/1.bak
