@@ -38,7 +38,7 @@ git stash clear
 # To commit staged changes
 git commit -m "Your commit message"
 # To edit previous commit message
-git commit --amend
+git commit --amend --date="$(date -R)" -m "message"
 # Git commit in the past
 git commit --date="`date --date='2 day ago'`"
 git commit --date="Jun 13 18:30:25 IST 2015"
