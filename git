@@ -48,10 +48,23 @@ git filter-branch --env-filter \
      fi'
 
 
+#查看commit的历史
+git log -3 -p
+git reflog
+
+
+#恢复工作区中的某个文件
+git checkout -- file
+
+#恢复暂存区中某个文件
+git reset HEAD file
+
 # To removed staged and working directory changes
 git reset --hard
 # To go 2 commits back
 git reset --hard HEAD~2
+#回到某个指定的commit
+git reset --hard cc63dfe
 # To remove untracked files
 git clean -f -d
 # To remove untracked and ignored files
