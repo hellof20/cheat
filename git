@@ -50,25 +50,22 @@ git filter-branch --env-filter \
 
 # To removed staged and working directory changes
 git reset --hard
-
 # To go 2 commits back
 git reset --hard HEAD~2
-
 # To remove untracked files
 git clean -f -d
-
 # To remove untracked and ignored files
 git clean -f -d -x
 
+
 # To push to the tracked master branch:
 git push origin master
-
 # To push to a specified repository:
 git push git@github.com:username/project.git
 
+
 # To delete the branch "branch_name"
 git branch -D branch_name
-
 # To make an exisiting branch track a remote branch
 git branch -u upstream/foo
 
