@@ -35,7 +35,6 @@ git stash apply stash@{6}
 git stash clear
 
 
-
 # To commit staged changes
 git commit -m "Your commit message"
 # To edit previous commit message
