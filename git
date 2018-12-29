@@ -2,43 +2,43 @@
 git config --global http.sslVerify false(全局)
 git config http.sslVerify false(单个项目)
 
+
 # To set your identity:
 git config --global user.name "John Doe"
 git config --global user.email johndoe@example.com
-
 # To set your editor:
 git config --global core.editor emacs
-
 # To enable color:
 git config --global color.ui true
 
+
 # To stage all changes for commit:
-git add --all
+git add .
+
 
 # To stash changes locally, this will keep the changes in a separate changelist
 # called stash and the working directory is cleaned. You can apply changes
 # from the stash anytime
 git stash
-
 # To stash changes with a message
 git stash save "message"
-
+# To show any stash from the list of stashes
+git stash show stash@{0}
 # To list all the stashed changes
 git stash list
-
 # To apply the most recent change and remove the stash from the stash list
 git stash pop
-
 # To apply any stash from the list of stashes. This does not remove the stash
 # from the stash list
 git stash apply stash@{6}
+#clear all stash
+git stash clear
+
 
 # To commit staged changes
 git commit -m "Your commit message"
-
 # To edit previous commit message
 git commit --amend
-
 # Git commit in the past
 git commit --date="`date --date='2 day ago'`"
 git commit --date="Jun 13 18:30:25 IST 2015"
