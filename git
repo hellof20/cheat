@@ -95,6 +95,8 @@ git remote prune origin
 git tag -a v1.1 -m "message"
 #把tag传到远程
 git push origin --tags
+#删除本地tag
+git tag -d v1.0
 
 # To see who commited which line in a file
 git blame filename
