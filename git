@@ -59,7 +59,7 @@ git checkout -- file
 #恢复暂存区中某个文件
 git reset HEAD file
 
-# To removed staged and working directory changes
+#回到某个commit
 git reset --hard
 # To go 2 commits back
 git reset --hard HEAD~2
@@ -77,10 +77,24 @@ git push origin master
 git push git@github.com:username/project.git
 
 
-# To delete the branch "branch_name"
+# 删除本地分支
 git branch -D branch_name
 # To make an exisiting branch track a remote branch
 git branch -u upstream/foo
+
+
+##远程分支
+git remote -v
+git remote show origin
+#删除远程已删除的分支
+git remote prune origin
+
+
+##tag
+#打tag
+git tag -a v1.1 -m "message"
+#把tag传到远程
+git push origin --tags
 
 # To see who commited which line in a file
 git blame filename
