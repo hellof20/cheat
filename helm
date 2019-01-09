@@ -20,8 +20,8 @@ helm repo index .
 helm repo update
 
 ##chart
-helm search repo_name/chart_name -l
-helm inspect stabel/mysql
+helm search stable/gitlab-ce -l
+helm inspect --version 0.2.2 stabel/gitlab-ce
 #部署某个chart
 helm install --name=xxx stable/mysql
 helm install --name mysql2 --set mysqlRootPassword=secretpassword,mysqlUser=my-user,mysqlPassword=my-password,mysqlDatabase=my-database,persistence.enabled=false stable/mysql
@@ -29,7 +29,7 @@ helm install -f mysql-config.yaml --name=mysql1 stable/mysql
 #部署前查看yaml文件
 helm install --name=ppp --dry-run --debug
 #下载某个chart到本地
-helm fetch --untar stable/mysql
+helm fetch --untar stable/gitlab-ce --version 0.2.2
 #创建自己的chart
 helm create ppp
 #打包某个chart，默认放到.helm/repository/local
