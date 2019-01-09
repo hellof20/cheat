@@ -7,7 +7,9 @@ git branch -D branch_name
 git remote -v
 git remote show origin
 #切换到远程分支
-git branch --checkout -b 本地分支名称 origin/远程分支名称
+git checkout -b 本地分支名称 origin/远程分支名称
+#查看本地分支和远程分支关联
+git branch -vv
 #删除远程已删除的分支
 git remote prune origin
 
