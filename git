@@ -24,6 +24,34 @@ git push origin --tags
 git tag -d v1.0
 
 
+##log
+#查看commit的历史
+git log -3 -p
+git reflog
+
+
+##恢复
+#恢复工作区中的某个文件
+git checkout -- file
+#恢复暂存区中某个文件
+git reset HEAD file
+#回到某个commit
+git reset --hard
+# To go 2 commits back
+git reset --hard HEAD~2
+#回到某个指定的commit
+git reset --hard cc63dfe
+
+
+##upstram
+#增加fork的源项目地址
+git remote add upstream https://github.com/ruanyf/weekly.git
+#从fork的源项目地址拉取代码到本地仓库
+git pull upstream master
+#push代码到远程仓库
+git push
+
+
 # 取消https认证
 git config --global http.sslVerify false(全局)
 git config http.sslVerify false(单个项目)
@@ -61,8 +89,7 @@ git stash apply stash@{6}
 git stash clear
 
 
-# To commit staged changes
-git commit -m "Your commit message"
+
 # To edit previous commit message
 git commit --amend --date="$(date -R)" -m "message"
 # To change the date of an existing commit
@@ -74,23 +101,6 @@ git filter-branch --env-filter \
      fi'
 
 
-#查看commit的历史
-git log -3 -p
-git reflog
-
-
-#恢复工作区中的某个文件
-git checkout -- file
-
-#恢复暂存区中某个文件
-git reset HEAD file
-
-#回到某个commit
-git reset --hard
-# To go 2 commits back
-git reset --hard HEAD~2
-#回到某个指定的commit
-git reset --hard cc63dfe
 # To remove untracked files
 git clean -f -d
 # To remove untracked and ignored files
