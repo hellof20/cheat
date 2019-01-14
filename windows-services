@@ -1,0 +1,11 @@
+##自定义windows服务
+1.download srvany.exe
+2.create your service
+  sc create myfrp binpath= "C:\srvany.exe" start= "auto" type= "own"
+3.把服务和参数添加到注册表
+  reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\myfrp\Parameters /v Application /t REG_SZ /d "C:\Users\wpan4\Downloads\frp_0.21.0_windows_amd64\frp_0.21.0_windows_amd64\frpc.exe" /f
+  reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\myfrp\Parameters /v AppParameters /t REG_SZ /d "-c C:\Users\wpan4\Downloads\frp_0.21.0_windows_amd64\frp_0.21.0_windows_amd64\frpc.ini" /f
+4.启动服务
+  sc start myfrp
+5.查看服务状态
+  sc query myfrp
