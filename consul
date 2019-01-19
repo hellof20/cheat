@@ -1,0 +1,21 @@
+#开发模式启动:
+consul agent -server -dev -ui -client 0.0.0.0
+注意:开发模式下consul重启数据会丢失
+
+
+服务端启动:
+# consul agent -server -ui -data-dir=/usr/local/consul/data/ -bind=192.168.17.130 -client=192.168.17.130 -bootstrap-expect 1 -enable-script-checks
+客户端启动:
+# consul agent -ui -data-dir=/tmp/consul -bind=192.168.17.131 -client=192.168.17.131 -join=192.168.17.130
+or
+#consul agent -bind='{{ GetInterfaceIP "ens192" }}' -client='{{ GetInterfaceIP "ens192" }}' -ui -data-dir=/usr/local/consul/data -join=16.190.244.189 -config-dir=/usr/local/consul/node_exporter.json -enable-script-checks
+
+
+参数说明:
+-bind: 用于指定consul集群内部通讯端口所绑定的地址
+-server: 说明当前的consul处于server模式.如果没有-server则默认是client模式
+-ui: 启动ui界面. 可以通过http://ip:8500/ui访问
+-bootstrap-expect=1: 表示整个集群所需要的server数量为1,如果不指定可能会导致服务端启动不成功
+-data-dir: 指定数据存储的目录
+-client: HTTP和DNS开放的端口所绑定的地址,不指定的话默认是127.0.0.1
+-join: client端启动的时候可以指定加入哪个server端

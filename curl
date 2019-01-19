@@ -1,0 +1,36 @@
+#提交json数据
+curl -k -X 'POST' -v http://10.30.3.51:5000/v2.0/tokens -d '{"auth":{"passwordCredentials":{"username": "admin", "password":"Obc3mnMH"}}}' -H 'Content-type: application/json'
+
+# 下载文件到指定目录
+curl http://example.com/file.zip -o new_file.zip
+
+# 下载多个文件
+curl -O URLOfFirstFile -O URLOfSecondFile
+curl http://example.com/pic[1-24].jpg
+
+# Download a file and pass HTTP Authentication
+curl -u username:password URL 
+
+# Download a file with a Proxy
+curl -x proxysever.server.com:PORT http://addressiwantto.access
+
+# Resume a previously failed download
+curl -C - -o partial_file.zip http://example.com/file.zip
+
+# Fetch only the HTTP headers from a response
+curl -I http://example.com
+
+# Limit the rate of a download
+curl --limit-rate 1000B -O http://path.to.the/file
+
+# Get your global IP
+curl httpbin.org/ip 
+
+# Get only the HTTP status code
+curl -o /dev/null -w '%{http_code}\n' -s -I URL
+
+# Download a file from FTP
+curl -u username:password -O ftp://example.com/pub/file.zip
+
+# Get an FTP directory listing
+curl ftp://username:password@example.com
