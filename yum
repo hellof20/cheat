@@ -1,4 +1,6 @@
 #查看软件所有可安装版本
+yum provides httpd
+或者
 yum --showduplicates list httpd | expand
 
 #安装指定版本
@@ -8,8 +10,12 @@ yum install <package name>-<version info>
 yum list httpd 或者 yum info httpd(查看显示的Instaled package还是Available Packages)
 yum list httpd*
 
-#查看所有已安装软件
+#查看所有已安装rpm包
 yum list installed
+
+#查看所有不是通过yum repo安装的rpm包
+yum list extras
+yum info extras
 
 #删除包
 yum autoremove httpd -y
