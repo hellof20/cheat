@@ -25,7 +25,10 @@ firewall-cmd --query-masquerade
 
 ## 查看ip_forward是否打开
 cat /proc/sys/net/ipv4/ip_forward
-echo 1 > /proc/sys/net/ipv4/ip_forward
+echo 1 > /proc/sys/net/ipv4/ip_forward 
+或
+net.ipv4.ip_forward = 1
+sysctl -p
 
 ## 端口转发
 firewall-cmd --zone=public --add-forward-port=port=8088:proto=tcp:toport=22:toaddr=47.75.83.123 --permanent
