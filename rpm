@@ -1,3 +1,19 @@
-rpm -ql docker
+##安装rpm包
+rpm -ivh ***.rpm　　#其中i表示安装，v表示显示安装过程，h表示显示进度
 
-rpm -qi docker
+##升级rpm包
+rpm -Uvh ***.rpm
+
+删除软件包
+rpm -e PACKAGE_NAME
+rpm -e -nodeps PACKAGE_NAME    #不考虑依赖包
+rpm -e -allmatches PACKAGE_NAME    #删除所有跟PACKAGE_NAME匹配的所有版本的包
+
+查询软件包
+rpm -q docker
+rpm -qp ***.rpm 获取当前目录下的rpm包相关信息
+rpm -qa | less 列出所有已安装的软件包
+rpm -qf /usr/sbin/httpd 查看某个文件属于哪个软件包，可以是普通文件或可执行文件，跟文件的绝对路径
+rpm -qi docker 列出已安装的这个包的标准详细信息
+rpm -ql docker 列出rpm包的文件内容
+rpm -q -scripts docker | less 列出已安装rpm包自带的安装前和安装后脚本
