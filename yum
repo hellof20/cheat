@@ -4,22 +4,29 @@ yum --showduplicates list httpd | expand
 #安装指定版本
 yum install <package name>-<version info>
 
-# To find what package installs a program:
-yum whatprovides </path/to/program>
+#查看某个软件安装情况
+yum list httpd 或者 yum info httpd(查看显示的Instaled package还是Available Packages)
+yum list httpd*
 
-# To find the dependencies of a package:
-yum deplist <package name>
+#查看所有已安装软件
+yum list installed
 
-# To find information about a package:
-yum info <package name>
+#删除包
+yum autoremove httpd -y
 
-# List currently enabled repositories:
+#回滚到某个版本
+yum downgrade vsftpd-3.0.2-25.el7
+
+#下载rpm包到指定目录
+yum install -y --downloadonly --downloaddir=/tmp/dir httpd
+或者
+yumdownloader httpd
+
+#查看某个包的依赖:
+yum deplist haproxy
+
+#查看某个包的情况:
+yum info haproxy
+
+#查看当前启用的所有repo:
 yum repolist
-
-# List packages containing a certain keyword:
-yum list <package_name_or_word_to_search>
- 
-# To download the source RPM for a package:
-yumdownloader --source <package name>
-
-# (You have to install yumdownloader first, which is installed by the yum-utils package)
