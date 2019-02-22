@@ -1,0 +1,49 @@
+filter表: 防火墙，过滤功能
+nat表：网络地址转换。源地址，目标地址，源端口，目标端口。
+mangle表：拆解报文，修改报文，重新封装
+raw表：关闭nat表上启用的连接追踪机制
+
+-t 默认查看的是filter表，如果要查看NAT表，可以加上-t nat参数
+-L 查看当前表的所有规则，也可以指定链和子链的名称
+-n 不对ip地址进行反查，加上这个参数显示速度会快很多
+-v 输出详细信息，包含通过该规则的数据包数量，总字节数及相应的网络接口
+--line-number 显示规则的序列号，这个参数在删除或修改规则时会用到
+-A 在指定链的末尾添加（append）一条新的规则
+-D 删除（delete）指定链中的某一条规则，可以按规则序号和内容删除
+-I 在指定链中插入（insert）一条新的规则，默认在第一行添加
+-R 修改、替换（replace）指定链中的某一条规则，可以按规则序号和内容替换
+-L 列出（list）指定链中所有的规则进行查看
+-E 重命名用户定义的链，不改变链本身
+-F 清空（flush）
+-N 新建（new-chain）一条用户自己定义的规则链
+-X 删除指定表中用户自定义的规则链（delete-chain）
+-P 设置指定链的默认策略（policy）
+-Z 将所有表的所有链的字节和数据包计数器清零
+
+##规则生效
+service iptables save
+iptables-save > /etc/sysconfig/iptables
+
+##清空规则
+#Flush All Chains
+iptables -F
+#Flush a Single Chain
+iptables -F INPUT
+
+##默认规则
+iptables -P INPUT DROP  #默认丢弃所有入站数据包
+
+##查看规则
+iptables -t filter -nvL --line-number
+或
+iptables-save
+
+##添加规则
+iptables -t filter -I INPUT 3 -dport 80 -j ACCEPT   #规则插入到filter表INPUT链中的第3位上，运行访问80端口
+iptables -t filter -A INPUT -s 192.168.1.5 -j DROP  #规则插入到filter表INPUT链中的最后一位，DROP来自192.168.1.5的流量
+
+##删除链上某条规则
+iptables -t filter -D INPUT 2
+
+##修改链上某条规则
+iptables -t filter -R INPUT 3 -j ACCEPT
