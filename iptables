@@ -47,3 +47,4 @@ iptables -t filter -D INPUT 2
 
 ##修改链上某条规则
 iptables -t filter -R INPUT 3 -j ACCEPT
+参考： http://www.zsythink.net/archives/1199
