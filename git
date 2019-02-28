@@ -15,6 +15,8 @@ git remote prune origin
 
 
 ##tag
+#切换到某个tag
+git checkout -b branch_name tag_name
 #打tag
 git tag -a v1.1 -m "message"
 #把tag传到远程
