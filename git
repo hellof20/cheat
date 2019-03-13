@@ -1,16 +1,39 @@
-##branch
-#新建本地分支
-git checkout -b branch名称
-# 删除本地分支
-git branch -D branch_name
-#查看远程分支
+##remote
+# 查看remote信息
 git remote -v
 git remote show origin
-#切换到远程分支
+
+## 合并
+# 合并整个branch
+git merge branch-name  把branch-name合并到当前分支
+或者
+在界面上提pull request
+# 合并某些commit
+1.在需要合并的commit上新建branch
+2.把新建的branch合并到指定branch上
+# 合并某个或者某几个commit
+git cherry-pick commit-id1 commit-id2  把id1和id2合并到当前分支
+
+
+##branch
+# 新建本地分支
+git checkout -b branch名称
+# 在当前branch的指定commit上新建分支
+git checkout -b branch名称 commit-id
+# 把本地branch传到远程
+git push origin branch名称
+# 删除本地分支
+git branch -D branch_name
+# 删除远程分支
+git push origin --delete pwmtest
+# 查看本地和远程分支
+git branch
+git branch -a
+# 切换到远程分支
 git checkout -b 本地分支名称 origin/远程分支名称
-#查看本地分支和远程分支关联
+# 查看本地分支和远程分支关联
 git branch -vv
-#删除远程已删除的分支
+# 删除远程已删除的本地分支
 git remote prune origin
 
 
@@ -28,8 +51,8 @@ git tag -d v1.0
 
 ##log
 #查看commit的历史
-git log -3 -p
-git reflog
+git log --oneline -3 -p
+git reflog -3  #可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）
 
 
 ##恢复
@@ -37,12 +60,10 @@ git reflog
 git checkout -- file
 #恢复暂存区中某个文件
 git reset HEAD file
-#回到某个commit
-git reset --hard
 # To go 2 commits back
 git reset --hard HEAD~2
 #回到某个指定的commit
-git reset --hard cc63dfe
+git reset --hard commit-id
 
 
 ##upstram
