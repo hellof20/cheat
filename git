@@ -47,7 +47,8 @@ git push origin 某个tag名称
 git push origin --tags
 #删除本地tag
 git tag -d v1.0
-
+# 删除远程tag
+git push origin :refs/tags/tag名称
 
 ##log
 #查看commit的历史
