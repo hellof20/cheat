@@ -9,15 +9,14 @@ helm reset
 
 
 ##Repo
+#查看repo
 helm repo list
+#新增repo
 helm repo add offical https://kubernetes-charts.storage.googleapis.com
 #自建repo
+参考https://helm.sh/docs/developing_charts/#create-a-chart-repository
 helm serve --address 192.168.100.211:8879 --repo-path /data/helm/repository/ --url http://192.168.100.211:8879/charts/
-#发布chart到自建repo
-helm package chart_name --debug
-进入repo目录
-helm repo index .
-helm repo update
+
 
 ##chart
 helm search stable/gitlab-ce -l
@@ -33,7 +32,10 @@ helm fetch --untar stable/gitlab-ce --version 0.2.2
 #创建自己的chart
 helm create ppp
 #打包某个chart，默认放到.helm/repository/local
-helm package mychart
+helm package ppp
+#发布chart到某个repo
+mv ppp-0.1.0.tgz repo的charts目录
+helm repo index charts目录 --url http://192.168.153.131:8080
 
 
 ##release
