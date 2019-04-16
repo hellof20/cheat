@@ -1,4 +1,7 @@
-##
+##Git On Custom SSH Port
+git clone ssh://git@mydomain.com:[port]/reponame.git
+
+## 设置https verify false
 git config --global http.sslVerify false
 ##设置代理
 git config --global https.proxy http://127.0.0.1:1080
