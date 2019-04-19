@@ -1,3 +1,6 @@
+##git启用windows凭据
+git config --global credential.helper wincred
+
 ##Git On Custom SSH Port
 git clone ssh://git@mydomain.com:[port]/reponame.git
 
