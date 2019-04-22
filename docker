@@ -1,3 +1,8 @@
+##连接docker ssl仓库，报Get https://gitlab.example.com:4567/v2/: x509: certificate signed by unknown authority
+cp /root/certs/domain.crt  /etc/docker/certs.d/mydockerhub.com\:5000/ca.crt
+或者
+cat /root/certs/domain.crt >> /etc/pki/tls/certs/ca-bundle.crt 
+
 #查看docker run命令
 pip install runlike
 runlike <container_id>
