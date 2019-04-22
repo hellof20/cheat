@@ -1,3 +1,6 @@
+##ansible支持windows服务器, ansible服务器需要安装pywinrm，Windows服务器需要配置好winrm
+pip install pywinrm
+
 # ansible配置文件默认位置~/.ansible.cfg
 
 # 跳过host_key_checking
@@ -7,21 +10,30 @@ host_key_checking = False
 #host文件格式
 [all]
 node1 ansible_host=16.187.145.13 ansible_ssh_user=root ansible_ssh_pass=hPer2016
-
+labtop ansible_host=192.168.153.1 ansible_ssh_user=wpan4 ansible_ssh_pass=Sdnrg-88 ansible_ssh_port=5985 ansible_connection=winrm
+[windows]
+laptop
 [wh-k8s]
 node1
 
+##linux常用模块
 #copy模块
 ansible all -i /root/hosts -m copy -a "src=./node_exporter dest=/usr/local/bin/node_exporter mode=0755"
-
 #command模块
 ansible all -i /root/hosts -m command -a "rm -rf /tmp/kibana-oss.6.2.4.tar"
-
 #ping模块
 ansible wh-ceph -i hosts -m ping
-
 #yum模块
 ansible wh-ceph -i hosts -m yum -a "state=present name=open-vm-tools"
-
 #service模块
 ansible all -i hosts -m service -a "name=node_exporter state=started enabled=yes"
+
+##windows常用模块
+#传文件
+ansible windows -m win_copy -a "src=/etc/passwd dest=e:\share"
+#删除文件
+ansible windows -m win_file -a "dest=e:\share\passwd state=absent"
+#创建用户
+ansible windows -m win_user -a "name=user1 password=123 groups='Administrators,Remote Desktop Users'"
+#执行命令
+ansible windows -m win_shell -a "dir"
