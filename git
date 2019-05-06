@@ -4,8 +4,6 @@ git config --global credential.helper wincred
 ##Git On Custom SSH Port
 git clone ssh://git@mydomain.com:[port]/reponame.git
 
-## 设置https verify false
-git config --global http.sslVerify false
 ##设置代理
 git config --global https.proxy http://127.0.0.1:1080
 git config --global https.proxy https://127.0.0.1:1080
@@ -19,6 +17,9 @@ git config --global --unset https.proxy
 # 查看remote信息
 git remote -v
 git remote show origin
+# set remote url
+git remote set-url origin git@www.portal.philips.com.cn:philips/infra/nginxconfig.git
+git remote set-url origin https://www.portal.philips.com.cn/gitlab/philips/infra/nginxconfig.git
 
 ## 合并
 # 合并整个branch
