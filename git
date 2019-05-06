@@ -70,7 +70,7 @@ git push origin :refs/tags/tag名称
 #查看commit的历史
 git log --oneline -3 -p
 git reflog -3  #可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）
-git log --graph --oneline 10
+git log --graph --oneline -10
 
 ##rebase
 参考：https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0015266568413773c73cdc8b4ab4f9aa9be10ef3078be3f000
