@@ -1,0 +1,5 @@
+#查看开放的端口
+netstat -ano|findstr 9000
+
+#查看所有进程
+tasklist
