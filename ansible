@@ -1,3 +1,6 @@
+##参考：使用 Ansible 实现数据中心自动化管理
+https://www.ibm.com/developerworks/cn/opensource/os-using-ansible-for-data-center-it-automation/index.html
+
 ##ansible支持windows服务器, ansible服务器需要安装pywinrm，Windows服务器需要配置好winrm
 pip install pywinrm
 
