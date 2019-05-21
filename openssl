@@ -4,7 +4,7 @@ openssl req -new -key privatekey.pem -out csr.pem
 openssl x509 -req -days 365 -in csr.pem -signkey privatekey.pem -out server.crt
 
 ##不自建CA生成私钥和公钥2：
-openssl req -new -x509 -nodes -days 3650 -newkey rsa:2048 -keyout server.key -out server.crt -subj "/C=/ST=/L=/O=/OU=/CN=devops"
+openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout server.key -out server.crt -subj "/C=/ST=/L=/O=/OU=/CN=devops"
 
 ##自建CA生成私钥和公钥:
 1.生成自建CA
@@ -29,3 +29,4 @@ openssl x509 -in server.crt -noout -sha256 -fingerprint
 #参考
 http://www.ruanyifeng.com/blog/2011/08/what_is_a_digital_signature.html
 http://blog.csdn.net/gx_1983/article/details/47866537
+https://medium.freecodecamp.org/openssl-command-cheatsheet-b441be1e8c4a
