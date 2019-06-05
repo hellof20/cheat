@@ -1,0 +1,12 @@
+pip install shadowsocks
+
+{
+    "server":"your_droplet's_IP_address",
+    "server_port":1194,
+    "local_port":1080,
+    "password":"your_password",
+    "timeout":600,
+    "method":"rc4-md5""
+}
+
+ssserver -c /etc/shadowsocks.json -d start
