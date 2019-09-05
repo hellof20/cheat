@@ -15,7 +15,7 @@ aws_secret_access_key = XZIjvEMCsGTQZpr9yu5zMP
 output = json
 region = cn-north-1
 
-[global]
+[profile global]
 output = json
 region = ap-northeast-2
 aws s3 ls --profile=golbal
@@ -23,3 +23,6 @@ aws s3 ls --profile=golbal
 
 #使用多个credentials
 aws s3 ls --profile=golbal
+
+#获取当前使用的账户信息
+aws sts get-caller-identity
