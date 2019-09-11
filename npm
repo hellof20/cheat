@@ -1,3 +1,7 @@
+#安装nodejs
+curl --silent --location https://rpm.nodesource.com/setup_10.x | bash -
+yum install nodejs
+
 #设置代理
 npm config set proxy http://web-proxy.sgp.hp.com:8080
 npm config set https-proxy http://web-proxy.sgp.hp.com:8080
