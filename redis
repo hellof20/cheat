@@ -1,0 +1,19 @@
+## redis-cli
+
+#测试连通性
+>ping
+pong
+
+
+#查看key
+keys *
+keys hell*
+
+#查看key属于类型（string,hash,list,set,sorted set）
+type keyname
+
+#操作
+https://www.runoob.com/redis/redis-hashes.html
+
+#清空数据
+flushall

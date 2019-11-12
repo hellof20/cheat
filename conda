@@ -1,0 +1,16 @@
+#创建新的环境
+conda create -n python3 python=3
+
+#列出所有的环境
+conda env list
+
+#active某个环境
+conda activate python3
+
+#在某个环境安装软件
+pip install flask --user
+
+#deactiva某个环境
+conda deactivate
+
+
