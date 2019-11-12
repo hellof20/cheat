@@ -1,9 +1,16 @@
+## redis安装
+sudo yum install gcc -y
+wget http://download.redis.io/redis-stable.tar.gz
+tar -zxvf redis-stable.tar.gz
+cd redis-stable
+make
+src/redis-cli xxxx
+
 ## redis-cli
 
 #测试连通性
 >ping
 pong
-
 
 #查看key
 keys *
@@ -15,5 +22,17 @@ type keyname
 #操作
 https://www.runoob.com/redis/redis-hashes.html
 
+#redis数据库db0-15
+https://www.jianshu.com/p/03c1276941cc
+
+#redis性能测试
+redis-banchmark -h 127.0.0.1 -p 6379 -n 10000 -q
+
 #清空数据
 flushall
+
+#python连接redis
+pip install redis
+import redis
+client=redis.Redis(host='',port=6379,db=0)
+client.get('key')
