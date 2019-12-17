@@ -1,0 +1,10 @@
+#初始化一个项目
+sls
+
+#lambda函数有依赖
+pip install xxx
+pip freeze > requirements.txt
+sls plugin install -n serverless-python-requirements
+
+#部署
+sls deploy
