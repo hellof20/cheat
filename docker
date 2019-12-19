@@ -1,3 +1,10 @@
+##将非root加入dockers组
+sudo groupadd docker
+sudo usermod -aG docker ec2-user
+
+##批量修改image tag
+for i in $(docker images --format "{{.Repository}}:{{.Tag}}");do docker tag $i 799967190878.dkr.ecr.cn-northwest-1.amazonaws.com.cn/$i;docker push 799967190878.dkr.ecr.cn-northwest-1.amazonaws.com.cn/$i;done
+
 ##连接docker ssl仓库，报Get https://gitlab.example.com:4567/v2/: x509: certificate signed by unknown authority
 cp /root/certs/domain.crt  /etc/docker/certs.d/mydockerhub.com\:5000/ca.crt
 或者
