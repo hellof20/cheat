@@ -2,6 +2,17 @@
 yum install bash-completion -y
 echo "source <(kubectl completion bash)" >> ~/.bashrc
 
+#访问k8s的其他方式
+curl --cacert ./kube-ca.pem  --key ./bilibili-key.pem --cert ./bilibili.pem https://161.189.48.233:6443/api/v1
+kubectl --server=https://172.31.4.176:6443 --certificate-authority=kube-ca.pem  --client-certificate=bilibili.pem --client-key=bilibili-key.pem get pods
+
+#创建用户并给用户分配admin权限
+openssl genrsa -out bilibili-key.pem 2048
+openssl req -new -key bilibili-key.pem -out bilibili.csr -subj "/CN=bilibili"
+openssl x509 -req -in bilibili.csr -CA kube-ca.pem -CAkey kube-ca-key.pem -CAcreateserial -out bilibili.pem -days 365
+kubectl create rolebinding bilibili --clusterrole=admin --user=bilibili
+kubectl create clusterrolebinding bilibili --clusterrole=admin --user=bilibili
+
 #查看所有api resource
 kubectl api-resources -o wide --namespaced=true/false --verbs=list,get --api-group=extension
 kubectl get apiservices
