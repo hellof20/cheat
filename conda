@@ -13,4 +13,5 @@ pip install flask --user
 #deactiva某个环境
 conda deactivate
 
-
+#删除某个环境
+conda remove -n python3 --all

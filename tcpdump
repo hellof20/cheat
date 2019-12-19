@@ -1,3 +1,6 @@
+# dns抓包
+
+
 tcpdump host 173.194.40.120
 
 tcpdump -i eth0 -ne src host 192.168.240.181 
