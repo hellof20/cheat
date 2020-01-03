@@ -2,6 +2,5 @@
 aws s3 cp . s3:/dxcdata/image_release --recursive --exclude "*" --include "*.tar"
 aws s3 cp caas-yml.zip s3:/dxcdata/caas-yml.zip
 
-
 #sync
 aws --region=cn-north-1 s3 sync s3://9isoft/php/ /var/www/html/

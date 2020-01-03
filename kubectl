@@ -11,7 +11,13 @@ openssl genrsa -out bilibili-key.pem 2048
 openssl req -new -key bilibili-key.pem -out bilibili.csr -subj "/CN=bilibili"
 openssl x509 -req -in bilibili.csr -CA kube-ca.pem -CAkey kube-ca-key.pem -CAcreateserial -out bilibili.pem -days 365
 kubectl create rolebinding bilibili --clusterrole=admin --user=bilibili
-kubectl create clusterrolebinding bilibili --clusterrole=admin --user=bilibili
+kubectl create clusterrolebinding bilibili --clusterrole=cluster-admin --user=bilibili
+
+#context
+kubectl config set-cluster product --server=https://192.168.44.132:6443 --certificate-authority=/etc/kubernetes/pki/ca.crt
+kubectl config set-credentials ppp --client-certificate=/etc/kubernetes/pki/admin.pem --client-key=/etc/kubernetes/pki/admin-key.pem
+kubectl config set-context system --cluster=product --user=ppp
+kubectl config use-context system
 
 #查看所有api resource
 kubectl api-resources -o wide --namespaced=true/false --verbs=list,get --api-group=extension
@@ -28,12 +34,6 @@ kubectl api-versions
 --v=7	Display HTTP request headers.
 --v=8	Display HTTP request contents.
 --v=9	Display HTTP request contents without truncation of contents
-
-#context
-kubectl config set-cluster product --server=https://192.168.44.132:6443 --certificate-authority=/etc/kubernetes/pki/ca.crt
-kubectl config set-credentials ppp --client-certificate=/etc/kubernetes/pki/admin.pem --client-key=/etc/kubernetes/pki/admin-key.pem
-kubectl config set-context system --cluster=product --user=ppp
-kubectl config use-context system
 
 #常用
 kubectl run alpine --image=alpine:3.6 --image-pull-policy=IfNotPresent -l "app=alpine,env=prod" --replicas=1 --env=username=pwm --env=password=123 --record --command -- sleep 36000
@@ -80,6 +80,7 @@ kubectl get deploy -l app=nginx
 kubectl label pod nginx-95fb6b497-58r5p  tier=backend --overwrite
 #add label
 kubectl label pod nginx-95fb6b497-58r5p  tier=backend
+kubectl label node 192.168.174.135 disktype=ssd
 #delete label
 kubectl label pod nginx-95fb6b497-58r5p  tier-
 

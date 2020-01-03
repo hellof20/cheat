@@ -1,0 +1,14 @@
+#获取当前共有哪些region
+aws ssm get-parameters-by-path --path /aws/service/global-infrastructure/regions --output json |jq '.Parameters[].Name'
+
+#获取某个region有哪些服务
+aws ssm get-parameters-by-path --path /aws/service/global-infrastructure/regions/us-east-1/services --output json | jq '.Parameters[].Name'
+
+#查询某个服务在哪些region可以使用
+aws ssm get-parameters-by-path --path /aws/service/global-infrastructure/services/athena/regions --output json | jq '.Parameters[].Value'
+
+#查询某个服务的全称
+aws ssm get-parameters-by-path --path /aws/service/global-infrastructure/services/athena --output json |jq '.Parameters[].Value'
+
+#查询某个服务ednpoint
+aws ssm get-parameter --name /aws/service/global-infrastructure/regions/us-west-1/services/s3/endpoint --output json | jq '.Parameter.Value'
