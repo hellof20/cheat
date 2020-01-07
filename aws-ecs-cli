@@ -42,11 +42,15 @@ ecs-cli compose up --create-log-groups
 #启动一个服务
 ecs-cli compose service up --create-log-groups
 
-#查看任务
+#查看任务运行状况
 ecs-cli ps
 
-#查看服务
+#查看服务运行状态，端口，地址
 ecs-cli service ps
+
+#服务通过负载均衡器暴露
+提前建好负载均衡器
+ecs-cli compose service up的时候指定相关参数
 
 #查看日志
 ecs-cli logs --task-id 7a83b82a-adff-4e50-b5db-ac1a9789472f
