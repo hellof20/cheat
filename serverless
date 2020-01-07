@@ -1,3 +1,11 @@
+#设置profile和region
+serverless.yaml中
+provider:
+  name: aws
+  runtime: python3.7
+  region: cn-northwest-1
+  profile: zhy
+
 #初始化一个项目
 sls
 

@@ -1,0 +1,56 @@
+#下载ecs-cli
+https://docs.aws.amazon.com/zh_cn/AmazonECS/latest/userguide/ECS_CLI_installation.html
+
+#配置ecs-cli工具
+ecs-cli configure --cluster MyFargate --region cn-northwest-1
+
+#定义docker-compose.yml文件
+version: '2'
+services:
+  nginx-demo:
+    image: nginx:1.13
+    ports:
+      - 80:80
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: ecs
+        awslogs-region: cn-northwest-1
+        awslogs-stream-prefix: myjob
+
+#定义ecs-params.yml
+version: 1
+task_definition:
+  task_execution_role: ecsTaskExecutionRole
+  ecs_network_mode: awsvpc
+  task_size:
+    mem_limit: 0.5GB
+    cpu_limit: 256
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - "subnet-3500b05c"
+        - "subnet-943d0cde"
+      security_groups:
+        - "sg-09526f0a80d104377"
+      assign_public_ip: ENABLED
+
+#启动一个任务
+ecs-cli compose up --create-log-groups 
+
+#启动一个服务
+ecs-cli compose service up --create-log-groups
+
+#查看任务
+ecs-cli ps
+
+#查看服务
+ecs-cli service ps
+
+#查看日志
+ecs-cli logs --task-id 7a83b82a-adff-4e50-b5db-ac1a9789472f
+
+#扩展一个任务或者服务
+
+#服务注册与发现
