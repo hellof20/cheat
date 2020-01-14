@@ -1,32 +1,28 @@
-#tiller安装
-kubectl create serviceaccount --namespace kube-system tiller
-kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-helm init --service-account=tiller --tiller-image=registry.cn-hangzhou.aliyuncs.com/google_containers/tiller:v2.11.0 
-
-
-#tiller卸载
-helm reset
-
+helm3不再需要tiller
 
 ##Repo
-#查看repo
-helm repo list
 #新增repo
+helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
 helm repo add offical https://kubernetes-charts.storage.googleapis.com
+#查看repo
+helm repo ls
 #自建repo
 参考https://helm.sh/docs/developing_charts/#create-a-chart-repository
 helm serve --address 192.168.100.211:8879 --repo-path /data/helm/repository/ --url http://192.168.100.211:8879/charts/
 
 
 ##chart
-helm search stable/gitlab-ce -l
-helm inspect --version 0.2.2 stabel/gitlab-ce
+#search chart
+helm search repo gitlab-ce -l
+#show chart/value
+helm show chart stable/gitlab-ce
+helm show values stable/gitlab-ce
 #部署某个chart
-helm install --name=xxx stable/mysql
-helm install --name mysql2 --set mysqlRootPassword=secretpassword,mysqlUser=my-user,mysqlPassword=my-password,mysqlDatabase=my-database,persistence.enabled=false stable/mysql
+helm install xxx stable/mysql
+helm install mysql2 --set mysqlRootPassword=secretpassword,mysqlUser=my-user,mysqlPassword=my-password,mysqlDatabase=my-database,persistence.enabled=false stable/mysql
 helm install -f mysql-config.yaml --name=mysql1 stable/mysql
 #部署前查看yaml文件
-helm install --name=ppp --dry-run --debug
+helm install ppp --dry-run --debug
 #下载某个chart到本地
 helm fetch --untar stable/gitlab-ce --version 0.2.2
 #创建自己的chart
@@ -40,9 +36,9 @@ helm repo index charts目录 --url http://192.168.153.131:8080
 
 ##release
 #查看所有的release
-helm list -a
+helm ls
 helm status xxx
-helm delete xxx --purge
+helm delete xxx
 
 
 #升级

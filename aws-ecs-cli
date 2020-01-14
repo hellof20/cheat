@@ -36,6 +36,9 @@ run_params:
         - "sg-09526f0a80d104377"
       assign_public_ip: ENABLED
 
+#push本地镜像到ecr镜像仓库
+ecs-cli push myecsjob:sleep
+
 #启动一个任务
 ecs-cli compose up --create-log-groups 
 
