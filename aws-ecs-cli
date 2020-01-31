@@ -1,8 +1,9 @@
 #下载ecs-cli
 https://docs.aws.amazon.com/zh_cn/AmazonECS/latest/userguide/ECS_CLI_installation.html
 
-#配置ecs-cli工具
+#配置ecs-cli工具，多个集群
 ecs-cli configure --cluster MyFargate --region cn-northwest-1
+ecs-cli configure --config-name virginia -cluster VirginiaECSFirgate --region us-east-1 --default-launch-type FARGATE
 
 #定义docker-compose.yml文件
 version: '2'
@@ -21,6 +22,7 @@ services:
 #定义ecs-params.yml
 version: 1
 task_definition:
+  task_role_arn: arn:aws:iam::486127124488:role/ecs-task-exec-role
   task_execution_role: ecsTaskExecutionRole
   ecs_network_mode: awsvpc
   task_size:
@@ -36,11 +38,11 @@ run_params:
         - "sg-09526f0a80d104377"
       assign_public_ip: ENABLED
 
-#push本地镜像到ecr镜像仓库
-ecs-cli push myecsjob:sleep
 
 #启动一个任务
 ecs-cli compose up --create-log-groups 
+#启动任务指定cluster配置和aws-profile
+ecs-cli compose up --create-log-groups --cluster-config virginia --aws-profile virginia
 
 #启动一个服务
 ecs-cli compose service up --create-log-groups
@@ -57,6 +59,9 @@ ecs-cli compose service up的时候指定相关参数
 
 #查看日志
 ecs-cli logs --task-id 7a83b82a-adff-4e50-b5db-ac1a9789472f
+
+#也可以使用ec-cli直接将本地镜像push到ecr镜像仓库
+ecs-cli push myecsjob:sleep
 
 #扩展一个任务或者服务
 

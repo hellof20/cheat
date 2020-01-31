@@ -1,0 +1,9 @@
+##增加kernel
+https://ipython.readthedocs.io/en/latest/install/kernel_install.html
+
+##显示当前的kernel
+jupyter kernelspec list
+
+##删除某个kernel
+jupyter kernelspec remove kernelname
+

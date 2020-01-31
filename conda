@@ -1,6 +1,10 @@
 #创建新的环境
 conda create -n python3 python=3
 
+#conda 环境和jupyter结合
+conda 4.1版本之后带了nb_conda_kernels，只需要创建环境的时候带上ipykernel,如
+conda create -n ppp python=3 ipykernel
+
 #列出所有的环境
 conda env list
 
