@@ -1,3 +1,7 @@
+#CMD和ENTRYPOINT区别
+CMD的内容会被docker run的时候覆盖掉
+ENTRYPOINT不会被覆盖掉
+
 #example
 FROM node:10-alpine
 RUN mkdir -p /src/app

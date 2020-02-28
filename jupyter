@@ -1,5 +1,8 @@
 ##增加kernel
 https://ipython.readthedocs.io/en/latest/install/kernel_install.html
+conda create -n python35 python=3.5 ipykernel
+conda activate python35
+python -m ipykernel install --user --name python35
 
 ##显示当前的kernel
 jupyter kernelspec list
@@ -7,3 +10,6 @@ jupyter kernelspec list
 ##删除某个kernel
 jupyter kernelspec remove kernelname
 
+#jupyter运行sql语句
+pip install ipython-sql
+%load_ext sql
