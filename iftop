@@ -1,0 +1,13 @@
+# 查看实时流量
+iftop
+
+# 统计60s内流量
+iftop -t -P -N -n -s 60
+
+#说明
+TX：发送流量
+RX：接收流量
+TOTAL：总流量
+Cumm：运行iftop到目前时间的总流量
+peak：流量峰值
+rates：分别表示过去 2s 10s 40s 的平均流量
