@@ -1,0 +1,6 @@
+#install nodejs
+wget https://nodejs.org/dist/v12.16.0/node-v12.16.0-linux-x64.tar.xz
+xz -d node-v12.16.0-linux-x64.tar.xz
+tar -xvf node-v12.16.0-linux-x64.tar
+ln -s /root/node-v12.16.0-linux-x64/bin/npm /usr/bin/npm
+ln -s /root/node-v12.16.0-linux-x64/bin/node /usr/bin/node
