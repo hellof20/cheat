@@ -1,5 +1,16 @@
+#安装包安装mysql
+https://www.jianshu.com/p/0d628b2f7476
+下载地址https://downloads.mysql.com/archives/community/
+yum install libncurses*
+
 #查看数据库编码
 show variables like 'character%';
+
+#查看版本
+select version();
+
+#查看时区
+show variables like '%time_zone%';
 
 # To backup all databases
 mysqldump --all-databases --all-routines -u root -p > ~/fulldump.sql
@@ -13,7 +24,7 @@ mysqldump alisw -u root -p > ~/alisw.sql
 # 还原单个数据库
 mysql alisw -u root -p < ~/alisw.sql
 
-# To create a database in utf8 charset
+# 创建数据库支持中文
 CREATE DATABASE owa CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 # To add a user and give rights on the given database
