@@ -1,0 +1,26 @@
+# 列出glacier文件库
+aws glacier list-vaults --account-id - --profile zhy
+
+# 查看glacier文件库
+aws glacier describe-vault --account-id - --vault-name glacier_repo --profile zhy
+
+# 上传文件
+aws glacier upload-archive --vault-name glacier_repo --account-id - --profile zhy --body wiznote-macos-2019-11-11.dmg --archive-description atchive1
+
+# 列出job
+aws glacier list-jobs --account-id - --vault-name glacier_repo --profile zhy
+
+# initiates a job to get an inventory of the vault
+aws glacier initiate-job --account-id - --vault-name glacier_repo --job-parameters '{"Type": "inventory-retrieval"}' --profile zhy
+
+# initiates a job to retrieve an archive from the vault
+aws glacier initiate-job --account-id - --vault-name glacier_repo --job-parameters --job-parameters file://job-archive-retrieval.json
+{
+  "Type": "archive-retrieval",
+  "ArchiveId": "UUcaAHZF8bbEmEgxmWdOI4pwSqaXdJcBxjHws0YV9FeLUsrHYR2bqLqCfUrbbOjNJpjg9XkSsXEQv9fMPspK7vBBSZseLHD2GTXLJmE8k8IjIMo5Vl9YLhKpckxUvmqH-Nak77kG9w",
+  "Description": "Retrieve archive on 2020-04-05",
+  "SNSTopic": "arn:aws-cn:sns:cn-northwest-1:799967190878:dynamodb"
+}
+
+# 查看job状态
+aws glacier describe-job --account-id - --vault-name glacier_repo --job-id "uLZm5pY9ehJ0P7cnLeJpkMqNWMRTDRzXaRhOT2rKc29gv-7dwN1KqBavd-k7kc_zEK9L-gJJfKq0wyB3_rE66wAC-efn" --profile zhy

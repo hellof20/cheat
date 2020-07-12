@@ -19,6 +19,17 @@ kubectl config set-credentials ppp --client-certificate=/etc/kubernetes/pki/admi
 kubectl config set-context system --cluster=product --user=ppp
 kubectl config use-context system
 
+##部署metric server
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.3.6/components.yaml
+国内需要把镜像修改为048912060910.dkr.ecr.cn-northwest-1.amazonaws.com.cn/gcr/google_containers
+
+##HPA测试
+kubectl apply -f https://k8s.io/examples/application/php-apache.yaml
+kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
+kubectl run -it --rm load-generator --image=busybox /bin/sh --generator=run-pod/v1
+while true; do wget -q -O- http://php-apache; done
+kubectl get hpa
+
 #查看所有api resource
 kubectl api-resources -o wide --namespaced=true/false --verbs=list,get --api-group=extension
 kubectl get apiservices
@@ -35,10 +46,14 @@ kubectl api-versions
 --v=8	Display HTTP request contents.
 --v=9	Display HTTP request contents without truncation of contents
 
-#常用
+##常用
+#创建deploy
+kubectl create deploy mynginx --image=nginx:1.13
+#创建pod
 kubectl run alpine --image=alpine:3.6 --image-pull-policy=IfNotPresent -l "app=alpine,env=prod" --replicas=1 --env=username=pwm --env=password=123 --record --command -- sleep 36000
-kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort/LoadBalancer
 kubectl run nginx --image=nginx:1.13 --port=80 --replicas=1 --requests='cpu=0.1,memory=128Mi' --limits='cpu=0.2,memory=256Mi' --restart=Always --image-pull-policy=IfNotPresent --record
+#将deploy expose成服务
+kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort/LoadBalancer
 
 ##open api server or expose service
 kubectl proxy --accept-paths='^.*' --address='0.0.0.0' --port=8080 --accept-hosts='^*$'
@@ -49,6 +64,18 @@ http://192.168.44.136:8080/api/v1/nodes/ubuntu/proxy/stats/summary或/stats/*或
 #access api use kubectl
 kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes/pp"|jq .
 
+##污点和容忍度
+[ NoSchedule | PreferNoSchedule | NoExecute ]
+NoSchedule: 一定不能被调度
+PreferNoSchedule: 尽量不要调度
+NoExecute: 不仅不会调度, 还会驱逐Node上已有的Pod
+kubectl taint node node1 key1=value1:NoSchedule
+kubectl taint node node1 key1:NoSchedule-
+tolerations:
+- key: "node-role.kubernetes.io/master"
+  operator: "Equal"
+  value: ""
+  effect: "NoSchedule"
 
 ##查看k8s集群状态
 kubectl get cs
