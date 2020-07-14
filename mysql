@@ -33,6 +33,9 @@ GRANT ALL PRIVILEGES ON database.* TO 'user'@'localhost'IDENTIFIED BY 'password'
 # 使权限生效
 flush privileges
 
+#导出RDS数据为csv文件
+mysql -hxxx.com -uadmin -pxxx spyder -e "select * from customer_reviews" | sed 's/\t/","/g;s/^/"/;s/$/"/;s/\n//g' > /tmp/customer_reviews.csv
+
 # To list the privileges granted to the account that you are using to connect to the server. Any of the 3 statements will work. 
 SHOW GRANTS FOR CURRENT_USER();
 SHOW GRANTS;
