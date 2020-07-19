@@ -1,6 +1,13 @@
+##修改svc类型
+kubectl -n cicd patch svc argocd-server -p '{"spec": {"type": "LoadBalancer"}}'
+
 #自动补全
 yum install bash-completion -y
 echo "source <(kubectl completion bash)" >> ~/.bashrc
+zsh的话在.zshrc的插件中加上kubectl
+
+## 添加注释
+kubectl -n kube-system annotate deploy/cluster-autoscaler cluster-autoscaler.kubernetes.io/safe-to-evict="false"
 
 #访问k8s的其他方式
 curl --cacert ./kube-ca.pem  --key ./bilibili-key.pem --cert ./bilibili.pem https://161.189.48.233:6443/api/v1
