@@ -1,0 +1,5 @@
+## 服务端
+https://github.com/firstrow/tcp_server
+
+## 客户端连接
+openssl s_client -connect nlb.joey618.top:12443
