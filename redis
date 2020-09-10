@@ -4,9 +4,12 @@ wget http://download.redis.io/redis-stable.tar.gz
 tar -zxvf redis-stable.tar.gz
 cd redis-stable
 make
-src/redis-cli xxxx
+
+## redis-server
+src/redis-server redis.conf
 
 ## redis-cli
+src/redis-cli -h xx.xx.xx.xx -p 6379 
 
 #测试连通性
 >ping
