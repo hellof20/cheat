@@ -1,0 +1,9 @@
+## 参考
+https://aws.amazon.com/cn/blogs/aws/new-tls-termination-for-network-load-balancers/
+https://exampleloadbalancer.com/nlbtls_demo.html
+
+## 服务端
+https://github.com/firstrow/tcp_server
+
+## 客户端连接
+openssl s_client -connect nlb.joey618.top:12443
