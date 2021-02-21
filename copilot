@@ -1,0 +1,27 @@
+app由svc/env/pipeline组成
+app、svc、env等信息都存在ssm的Parameter Store里面
+#一个env代表一个ecs集群
+
+#初始化app、svc、env
+copilot init
+
+#新建一个环境, 比如dev，prod
+copilot env init
+
+#通过指定新的image tag来更新service
+copilot svc deploy --tag 2022
+
+#查看svc状态
+copilot svc status
+
+##流水线pipeline
+#创建流水线
+copilot pipeline init
+
+#修改copilot/buildspec.yml文件,添加自己的build命令
+
+#运行流水线
+copilot pipeline update
+
+#查看流水线状态
+copilot pipeline status
