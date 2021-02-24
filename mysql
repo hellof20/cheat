@@ -1,3 +1,10 @@
+##centos yum安装mysql8
+repo下载地址：https://dev.mysql.com/downloads/repo/yum/
+https://www.mysqltutorial.org/install-mysql-centos/
+
+##ubuntu apt安装mysql
+https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04
+
 #安装包安装mysql
 https://www.jianshu.com/p/0d628b2f7476
 下载地址https://downloads.mysql.com/archives/community/
