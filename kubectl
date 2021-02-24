@@ -108,6 +108,7 @@ kubectl create secret generic test-secret --from-literal=username='my-app' --fro
 #label
 #get label
 kubectl get po --show-labels
+kubectl get nodes -L node.kubernetes.io/instance-type
 #label-selector
 kubectl get deploy -l app=nginx
 #update label

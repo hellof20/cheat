@@ -4,10 +4,10 @@ https://docs.aws.amazon.com/zh_cn/AmazonECS/latest/userguide/ECS_CLI_installatio
 #配置ecs-cli工具，多个集群(~/.ecs/config)
 ecs-cli configure --cluster MyFargate --region cn-northwest-1
 或
-ecs-cli configure --config-name VirginiaECSFirgate --cluster VirginiaECSFirgate --region us-east-1 --default-launch-type FARGATE
+ecs-cli configure --config-name SingaporeECSFargate --cluster SingaporeECSFargate --region ap-southeast-1 --default-launch-type FARGATE
 
 ##创建 Amazon ECS 集群
-ecs-cli up --cluster-config VirginiaECSFirgate --empty
+ecs-cli up --cluster-config SingaporeECSFargate --empty
 
 ##删除 Amazon ECS 集群
 ecs-cli down --cluster-config VirginiaECSFirgate

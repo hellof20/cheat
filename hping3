@@ -1,2 +1,5 @@
 ## syn flood攻击
 sudo hping3 -c 20000 -d 120 -S -w 64 -p 1280 --flood --rand-source nlb.joey618.top
+
+## 测试tcp端口延迟(端口扫描)
+sudo hping3 <IP-address> -S -p <destination-port> -c <number of samples>

@@ -8,12 +8,18 @@ make
 ## redis-server
 src/redis-server redis.conf
 
-## redis-cli
+## redis-cli连接非集群版redis
 src/redis-cli -h xx.xx.xx.xx -p 6379 
+## redis-cli连接集群版redis
+src/redis-cli -c -h xx.xx.xx.xx -p 6379 
 
 #测试连通性
 >ping
 pong
+
+## 发布订阅
+SUBSCRIBE runoobChat  #第一个客户端订阅runoobChat频道
+PUBLISH runoobChat "Redis PUBLISH test" #第二个客户端往runoobChat这个频道发送消息
 
 #查看key
 keys *
