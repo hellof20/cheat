@@ -1,0 +1,32 @@
+安装
+curl https://sdk.cloud.google.com | bash
+
+初始化
+gcloud init
+
+查看当前用户
+gcloud auth list
+
+查看当前项目
+gcloud config list project
+
+##compute
+创建虚拟机
+gcloud compute instances create vm1 --machine-type f1-micro
+
+操作对象存储命令
+gsutil
+
+##BigQuery
+操作BQ
+bq
+
+##AppEngine
+gcloud app
+
+
+##container registry
+1. gcloud auth configure-docker
+2. docker tag nginx:1.13 us.gcr.io/ultra-compound-305409/nginx:1.13
+3. docker push
+镜像存储在cloud storage对象存储
