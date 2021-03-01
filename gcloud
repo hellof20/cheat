@@ -30,3 +30,9 @@ gcloud app
 2. docker tag nginx:1.13 us.gcr.io/ultra-compound-305409/nginx:1.13
 3. docker push
 镜像存储在cloud storage对象存储
+
+##Artifact Registry -Docker
+1. 创建repository
+2. 点右上角SET INSTRUCTION gcloud auth configure-docker     asia-southeast1-docker.pkg.dev
+3. docker tag nginx:1.13 asia-southeast1-docker.pkg.dev/ultra-compound-305409/docker-repository/nginx:1.13
+4. docker push asia-southeast1-docker.pkg.dev/ultra-compound-305409/docker-repository/nginx:1.13 
