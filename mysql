@@ -1,6 +1,11 @@
 ##centos yum安装mysql8
 repo下载地址：https://dev.mysql.com/downloads/repo/yum/
+wget https://repo.mysql.com//mysql80-community-release-el7-3.noarch.rpm
+sudo rpm -ivh mysql80-community-release-el7-3.noarch.rpm
+服务端安装：
 https://www.mysqltutorial.org/install-mysql-centos/
+客户端安装：
+sudo yum --enablerepo=mysql80-community install mysql-community-devel mysql-community-client mysql-community-common
 
 ##ubuntu apt安装mysql
 https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04
