@@ -22,4 +22,4 @@ jq '.[:3]'
 jq '.[-2:]'
 
 # 先对象后list
-jq '.records | []'
+jq '.records | .[]'
